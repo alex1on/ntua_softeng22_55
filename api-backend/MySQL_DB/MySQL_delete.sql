@@ -1,0 +1,2 @@
+USE mydb;
+DELETE FROM Q_User;
