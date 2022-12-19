@@ -1,0 +1,26 @@
+{
+  "name": "softeng22-55",
+  "version": "1.0.0",
+  "description": "Group: softeng2022-55\r Members: \r Giadikiaroglou Panagiotis (el19185),\r Emmanouilidis Emmanouil (el19435),\r Ionitsa Alexandros (el19193),\r Panagiotopoulos Nikitas (el19014),\r Velalopoulos Mixail - Aggelos (el19908)",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ntua/SoftEng22-55.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ntua/SoftEng22-55/issues"
+  },
+  "homepage": "https://github.com/ntua/SoftEng22-55#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongodb": "^4.12.1"
+  }
+}
