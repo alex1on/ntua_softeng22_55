@@ -5,9 +5,9 @@ SET @OLD_FOREIGN_KEY_CHECKS = @@FOREIGN_KEY_CHECKS,
 SET @OLD_SQL_MODE = @@SQL_MODE,
     SQL_MODE = 'TRADITIONAL';
     
-DROP SCHEMA IF EXISTS mydb;
-CREATE SCHEMA mydb;
-USE mydb;
+DROP SCHEMA IF EXISTS intelliQ;
+CREATE SCHEMA intelliQ;
+USE intelliQ;
 
 -- 
 -- Table structure for table 'Q_User'
@@ -44,7 +44,7 @@ CREATE TABLE Keywords (
     CONSTRAINT fk_Key_QuestionnaireID FOREIGN KEY (QuestionnaireID) REFERENCES Questionnaire (QuestionnaireID) ON DELETE CASCADE ON UPDATE CASCADE,
     /* If we delete keywords' questionnaire, then we don't want to keep this table. */
     UserID INT UNSIGNED NOT NULL, 
-    CONSTRAINT fk_Key_UserID FOREIGN KEY (UserID) REFERENCES Questionnaire (UserID) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_Key_UserID FOREIGN KEY (UserID) REFERENCES User (UserID) ON DELETE CASCADE ON UPDATE CASCADE,
     last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (KeywordsID, QuestionnaireID, UserID)
 );
@@ -64,7 +64,7 @@ CREATE TABLE Question (
     CONSTRAINT fk_Question_QuestionnaireID FOREIGN KEY (QuestionnaireID) REFERENCES Questionnaire (QuestionnaireID) ON DELETE CASCADE ON UPDATE CASCADE,
     /* If we delete question's questionnaire, then we don't want to keep the question. */
     UserID INT UNSIGNED NOT NULL, 
-    CONSTRAINT fk_Question_UserID FOREIGN KEY (UserID) REFERENCES Questionnaire (UserID) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_Question_UserID FOREIGN KEY (UserID) REFERENCES User (UserID) ON DELETE CASCADE ON UPDATE CASCADE,
     last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (QuestionID, QuestionnaireID, UserID)
 );
@@ -76,16 +76,17 @@ CREATE TABLE Q_Option (
 	OptionID INT UNSIGNED NOT NULL AUTO_INCREMENT,
     OptText VARCHAR(255) NOT NULL,
     NextQID INT UNSIGNED,
+    CONSTRAINT fk_Option_NextQID FOREIGN KEY (NextQID) REFERENCES Question (QuestionID) ON DELETE SET NULL ON UPDATE CASCADE,
     QuestionID INT UNSIGNED NOT NULL,
-    CONSTRAINT fk_Option_QuestionID FOREIGN KEY (QuestionID) REFERENCES Question (QuestionID) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT fk_Option_QuestionID FOREIGN KEY (QuestionID) REFERENCES Question (QuestionID) ON DELETE CASCADE ON UPDATE CASCADE,
     /* If we delete option's question, then we don't want to keep the option. */
     QuestionnaireID INT UNSIGNED NOT NULL,
-    CONSTRAINT fk_Option_QuestionnaireID FOREIGN KEY (QuestionnaireID) REFERENCES Question (QuestionnaireID) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_Option_QuestionnaireID FOREIGN KEY (QuestionnaireID) REFERENCES Questionnaire (QuestionnaireID) ON DELETE CASCADE ON UPDATE CASCADE,
     UserID INT UNSIGNED NOT NULL, 
-    CONSTRAINT fk_Option_UserID FOREIGN KEY (UserID) REFERENCES Question (UserID) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_Option_UserID FOREIGN KEY (UserID) REFERENCES User (UserID) ON DELETE CASCADE ON UPDATE CASCADE,
     last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (OptionID, QuestionID, QuestionnaireID, UserID)
-);    
+);
 
 -- 
 -- Table structure for table 'Answer'
@@ -95,16 +96,14 @@ CREATE TABLE Answer (
     OptionID INT UNSIGNED NOT NULL,
     CONSTRAINT fk_Answer_OptionID FOREIGN KEY (OptionID) REFERENCES Q_Option (OptionID) ON DELETE CASCADE ON UPDATE CASCADE,
     QuestionID INT UNSIGNED NOT NULL,
-    CONSTRAINT fk_Answer_QuestionID FOREIGN KEY (QuestionID) REFERENCES Q_Option (QuestionID) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_Answer_QuestionID FOREIGN KEY (QuestionID) REFERENCES Question (QuestionID) ON DELETE CASCADE ON UPDATE CASCADE,
     QuestionnaireID INT UNSIGNED NOT NULL,
-    CONSTRAINT fk_Answer_QuestionnaireID FOREIGN KEY (QuestionnaireID) REFERENCES Q_Option (QuestionnaireID) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_Answer_QuestionnaireID FOREIGN KEY (QuestionnaireID) REFERENCES Questionnaire (QuestionnaireID) ON DELETE CASCADE ON UPDATE CASCADE,
     UserID INT UNSIGNED NOT NULL, 
-    CONSTRAINT fk_Answer_UserID FOREIGN KEY (UserID) REFERENCES Q_Option (UserID) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_Answer_UserID FOREIGN KEY (UserID) REFERENCES User (UserID) ON DELETE CASCADE ON UPDATE CASCADE,
     last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (Session, OptionID, QuestionID,QuestionnaireID, UserID)
+    PRIMARY KEY (Session, OptionID, QuestionID, QuestionnaireID, UserID)
 ); 
-
---- Triggers?
 
 SET SQL_MODE = @OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS;
