@@ -27,6 +27,7 @@
           'array',
           'null'
         ],
+        uniqueItems: true,
         items: {
           bsonType: 'object',
           required: [
