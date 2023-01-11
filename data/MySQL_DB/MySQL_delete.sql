@@ -1,2 +1,2 @@
-USE mydb;
+USE intelliQ;
 DELETE FROM Q_User;

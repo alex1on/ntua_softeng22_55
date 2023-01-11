@@ -1,11 +1,11 @@
-USE mydb;
+USE intelliQ;
 
 -- Delete Data
 DELETE FROM Answer;
 DELETE FROM Keywords;
 DELETE FROM Q_Option;
 DELETE FROM Question;
-DELETE FROM Questionaire;
+DELETE FROM Questionnaire;
 DELETE FROM Q_User;
 ALTER TABLE `Q_User` AUTO_INCREMENT = 1;
 ALTER TABLE `Questionnaire` AUTO_INCREMENT = 1;
@@ -23,12 +23,12 @@ INSERT INTO Q_User (Username, psw, email) VALUES
     ('Skatz', 'test5', 'Skatz@example.com');
 
 -- Insert Questionaire data
-INSERT INTO Questionaire (Title, UserID) VALUES 
+INSERT INTO Questionnaire (QuestionnaireTitle, UserID) VALUES 
     ("Manos' Questionnaire", 1),
     ("pGiad's Questionnaire", 2),
     ("Alex's Questionnaire", 3),
     ("Velalo's Questionnaire", 4),
-    ("Skatz's Questionnaire", 5),
+    ("Skatz's Questionnaire", 5);
     
 
 
@@ -41,7 +41,7 @@ INSERT INTO Question (QText, Q_Required, Q_Type, QuestionnaireID, UserID) VALUES
     ('Do you play games on PC, PlayStation or XBOX?',0, 'Research', 2, 2),
     ('What kind of games do you enjoy most?',1,'Research', 2, 2),
     ('How often do you use Spotify?',1,'Research', 2, 2),
-    ('Will you ever shave?',1,'Research', 2, 2)
+    ('Will you ever shave?',1,'Research', 2, 2),
     ('Do you drive?',0,'Research', 3, 3),
     ('In what condition is your car?',1,'Research', 3, 3),
     ('Which is your favourite character in Star Wars?',1,'Research', 3, 3),
@@ -91,7 +91,7 @@ INSERT INTO Q_Option (OptText, NextQID, QuestionID, QuestionnaireID, UserID) VAL
 
     
 -- Insert Question data
-INSERT INTO Answer (OptionID, QuestionID, QuestionnaireID, UserID) 
+INSERT INTO Answer (OptionID, QuestionID, QuestionnaireID, UserID) VALUES
     (1,1,1,1),
     (6,2,1,1),
     (8,3,1,1),
