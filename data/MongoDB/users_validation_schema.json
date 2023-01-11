@@ -1,0 +1,133 @@
+{
+  $jsonSchema: {
+    required: [
+      '_id',
+      'username',
+      'password'
+    ],
+    properties: {
+      _id: {
+        bsonType: 'objectId',
+        description: '_id is a required field for users'
+      },
+      username: {
+        bsonType: 'string',
+        description: 'username is a required field for users'
+      },
+      password: {
+        bsonType: 'string',
+        description: 'password is a required field for users'
+      },
+      email: {
+        bsonType: 'string',
+        pattern: '^[a-zA-Z0-9.!#$%&\'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$'
+      },
+      questionnaires: {
+        bsonType: [
+          'array',
+          'null'
+        ],
+        uniqueItems: true,
+        items: {
+          bsonType: 'object',
+          required: [
+            'questionnaireID',
+            'questionnaireTitle'
+          ],
+          properties: {
+            questionnaireID: {
+              bsonType: 'objectId',
+              description: 'questionnaireID is a required field for questionnnaires'
+            },
+            questionnaireTitle: {
+              bsonType: 'string',
+              description: 'questionnaireTitle is a required field for questionnaires'
+            },
+            keywords: {
+              bsonType: [
+                'array',
+                'null'
+              ],
+              items: {
+                bsonType: 'string'
+              }
+            },
+            questions: {
+              bsonType: [
+                'array',
+                'null'
+              ],
+              uniqueItems: true,
+              items: {
+                bsonType: 'object',
+                required: [
+                  'qID',
+                  'qtext',
+                  'qrequired',
+                  'qtype'
+                ],
+                properties: {
+                  qID: {
+                    bsonType: 'objectId',
+                    description: 'qID is a required field for questions'
+                  },
+                  qtext: {
+                    bsonType: 'string',
+                    description: 'qtext is a required field for questions'
+                  },
+                  qrequired: {
+                    bsonType: 'bool',
+                    description: 'qrequired is a required field for questions'
+                  },
+                  qtype: {
+                    bsonType: 'string',
+                    'enum': [
+                      'profile',
+                      'question'
+                    ],
+                    description: 'qtype is a required field for questions'
+                  },
+                  options: {
+                    bsonType: [
+                      'array',
+                      'null'
+                    ],
+                    uniqueItems: true,
+                    items: {
+                      bsonType: 'object',
+                      required: [
+                        'optID',
+                        'opttxt',
+                        'nextqID'
+                      ],
+                      properties: {
+                        optID: {
+                          bsonType: 'objectId',
+                          description: 'optID is a required field for options'
+                        },
+                        opttxt: {
+                          bsonType: 'string',
+                          description: 'opttxt is a required field for options'
+                        },
+                        nextqID: {
+                          bsonType: [
+                            'objectId',
+                            'null'
+                          ],
+                          description: 'nextqID is a required field for options'
+                        }
+                      }
+                    }
+                  }
+                },
+                additionalProperties: false
+              }
+            }
+          },
+          additionalProperties: false
+        }
+      }
+    },
+    additionalProperties: false
+  }
+}
