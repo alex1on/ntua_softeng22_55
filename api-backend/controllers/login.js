@@ -1,4 +1,4 @@
-const { pool } = require('../db-init.js');
+const { pool } = require('../db-init');
 
 // Handle login requests 
 exports.checkCredentials = (req, res, next) => {
