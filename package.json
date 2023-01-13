@@ -25,6 +25,8 @@
     "conf": "^10.2.0",
     "express": "^4.18.2",
     "mongodb": "^4.12.1",
+    "mysql2": "^3.0.1",
+    "promise-mysql": "^5.2.0",
     "prompt-sync": "^4.2.0"
   },
   "bin": {
