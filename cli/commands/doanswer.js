@@ -2,6 +2,7 @@ const conf = new (require("conf"))();
 const chalk = require("chalk");
 
 function doanswer({ questionnaire_id, question_id, session, option_id }) {
+  // pass arguments to API request
   console.log(
     chalk.greenBright(
       "You successfully answered the question with id =",
