@@ -104,3 +104,14 @@ INSERT INTO Answer (Session, OptionID, QuestionID, QuestionnaireID, UserID) VALU
     ("ad13",30,10,3,3),
     ("ad13",31,11,3,3);
     
+INSERT INTO Keywords (KeywordsText, QuestionnaireID, UserID) VALUES 
+    ("key1", 1, 1),
+    ("key2", 1, 1),
+    ("key3", 1, 1),
+    ("key4", 1, 1),
+    ("key5", 1, 1),
+    ("key1", 2, 2),
+    ("key2", 2, 2),
+    ("key3", 2, 2),
+    ("key4", 2, 2),
+    ("key5", 2, 2);

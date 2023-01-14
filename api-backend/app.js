@@ -1,10 +1,12 @@
 const express = require('express');
-
-//require('custom-env').env('localhost');
-const intelliq_api = require('./routes/intelliq_api');
+const path = require('path');
 
 const app = express();
 
+const intelliq_api = require('./routes/intelliq_api');
+
+
+app.use(express.json());
 app.use('/intelliq_api', intelliq_api);
 
 module.exports = app;
