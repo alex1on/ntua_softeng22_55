@@ -15,12 +15,12 @@ ALTER TABLE `Answer` AUTO_INCREMENT = 1;
 ALTER TABLE `Keywords` AUTO_INCREMENT = 1;
 
 -- Insert Q_user data
-INSERT INTO Q_User (Username, psw, email) VALUES 
-    ('Manos', 'test1', 'Manos@example.com'),
-    ('pGiad', 'test2', 'pGiad@example.com'),
-    ('Alex', 'test3', 'Alex@example.com'),
-    ('Velalo', 'test4', 'Velalo@example.com'),
-    ('Skatz', 'test5', 'Skatz@example.com');
+INSERT INTO Q_User (UserID, Username, psw, email) VALUES 
+    (1,'Manos', 'test1', 'Manos@example.com'),
+    (2,'pGiad', 'test2', 'pGiad@example.com'),
+    (3,'Alex', 'test3', 'Alex@example.com'),
+    (4,'Velalo', 'test4', 'Velalo@example.com'),
+    (5,'Skatz', 'test5', 'Skatz@example.com');
 
 -- Insert Questionaire data
 INSERT INTO Questionnaire (QuestionnaireTitle, UserID) VALUES 
@@ -91,16 +91,16 @@ INSERT INTO Q_Option (OptText, NextQID, QuestionID, QuestionnaireID, UserID) VAL
 
     
 -- Insert Question data
-INSERT INTO Answer (OptionID, QuestionID, QuestionnaireID, UserID) VALUES
-    (1,1,1,1),
-    (6,2,1,1),
-    (8,3,1,1),
-    (10,4,1,1),
-    (13,5,2,2),
-    (17,6,2,2),
-    (19,7,2,2),
-    (24,8,2,3),
-    (25,9,3,3),
-    (30,10,3,3),
-    (31,11,3,3);
+INSERT INTO Answer (Session, OptionID, QuestionID, QuestionnaireID, UserID) VALUES
+    ("ab11",1,1,1,1),
+    ("ab11",6,2,1,1),
+    ("ab11",8,3,1,1),
+    ("ab11",10,4,1,1),
+    ("ac12",13,5,2,2),
+    ("ac12",17,6,2,2),
+    ("ac12",19,7,2,2),
+    ("ad13",24,8,2,3),
+    ("ad13",25,9,3,3),
+    ("ad13",30,10,3,3),
+    ("ad13",31,11,3,3);
     
