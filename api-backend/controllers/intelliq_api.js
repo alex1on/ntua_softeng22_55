@@ -1,37 +1,42 @@
 const { pool } = require('../db-init');
 
 exports.getHome = (req, res, next) => {
-    //res.render("This should be: HomePages.ejs");
+    res.send("This should be: HomePages.ejs");
     // HOME PAGE
 }
 
 // Handle get questionnaire request 
 exports.getQuestionnaire = (req, res, next) => {
     const questionnaireID = req.params.questionnaireID;
+    console.log(questionnaireID);
 
     // SQL query to select the general information and questions of a questionnaire
-    const sql = `SELECT Questionnaire.QuestionnaireID, Questionnaire.QuestionnaireTitle, Keywords.KeywordsText, 
-                Question.QuestionID, Question.QText, Question.Q_Required, Question.Q_Type 
-                FROM Questionnaire 
-                INNER JOIN Keywords ON Keywords.QuestionnaireID = Questionnaire.QuestionnaireID
-                INNER JOIN Question ON Question.QuestionnaireID = Questionnaire.QuestionnaireID
-                WHERE Questionnaire.QuestionnaireID = ?
-                ORDER BY Question.QuestionID`;
+
 
     // Execute the SQL query
     pool.getConnection((err, conn) => {
-        conn.promise().query(sql, [questionnaireID], (error, results) => {
-            if (error) {
-                // Return an error if there was a problem executing the query
-                res.status(500).json({ message: 'Internal server error -> Error getting questionnaire' });
-            } else if (results.length > 0) {
-                // If the questionnaire exists in the database, return the general information and questions
-                res.status(200).json({ questionnaire: results });
-            } else {
-                // If the questionnaire does not exist in the database, return an error message
-                res.status(402).json({ message: 'Questionnaire not found' });
-            }
-        });
+        var sql = `SELECT Questionnaire.QuestionnaireID, Questionnaire.QuestionnaireTitle, 
+                Question.QuestionID, Question.QText, Question.Q_Required, Question.Q_Type 
+                FROM Questionnaire 
+                INNER JOIN Question ON Question.QuestionnaireID = Questionnaire.QuestionnaireID
+                WHERE Questionnaire.QuestionnaireID = ${questionnaireID}
+                ORDER BY Question.QuestionID`;
+
+        console.log(sql);
+
+        conn.promise().query(sql)
+            .then(([rows, fields]) => {
+                res.status(200).json({
+                    questionnaire: rows
+                })
+            })
+            .catch((err) => {
+                pool.releaseConnection(conn);
+                res.status(500).json({
+                    status: 'failed',
+                    message: err.message
+                })
+            })
     });
 };
 
@@ -62,7 +67,7 @@ exports.getQuestion = (req, res, next) => {
                 res.status(402).json({ message: 'Question not found' })
             }
         })
-    }) 
+    })
 }
 
 // Handle doAnswer post
