@@ -2,7 +2,7 @@
   "name": "softeng22-55",
   "version": "1.0.0",
   "description": "Group: softeng2022-55\r Members: \r Giadikiaroglou Panagiotis (el19185),\r Emmanouilidis Emmanouil (el19435),\r Ionitsa Alexandros (el19193),\r Panagiotopoulos Nikitas (el19014),\r Velalopoulos Mixail - Aggelos (el19908)",
-  "main": "index.js",
+  "main": "./api-backend/server.js",
   "directories": {
     "test": "test"
   },
@@ -33,6 +33,7 @@
     "prompt-sync": "^4.2.0"
   },
   "bin": {
-    "se2255": "./cli/index-cli.js"
-  }
+    "se2255": "cli/index-cli.js"
+  },
+  "devDependencies": {}
 }

@@ -12,8 +12,8 @@ exports.getQuestionnaire = (req, res, next) => {
     // SQL query to select the general information and questions of a questionnaire
     const sql = `SELECT Questionnaire.QuestionnaireID, Questionnaire.QuestionnaireTitle, Keywords.KeywordsText, 
                 Question.QuestionID, Question.QText, Question.Q_Required, Question.Q_Type 
-                FROM Questionnaire
-                IINER JOIN Keywords ON Keywords.QuestionnaireID = Questionnaire.QuestionnaireID
+                FROM Questionnaire 
+                INNER JOIN Keywords ON Keywords.QuestionnaireID = Questionnaire.QuestionnaireID
                 INNER JOIN Question ON Question.QuestionnaireID = Questionnaire.QuestionnaireID
                 WHERE Questionnaire.QuestionnaireID = ?
                 ORDER BY Question.QuestionID`;
@@ -66,7 +66,7 @@ exports.getQuestion = (req, res, next) => {
 }
 
 // Handle doAnswer post
-exports.doanswer = (req, res, next) => {
+exports.doAnswer = (req, res, next) => {
     const { questionnaireID, questionID, session, optionID } = req.params;
 
     // SQL query to find the UserID associated with the provided questionnaireID
