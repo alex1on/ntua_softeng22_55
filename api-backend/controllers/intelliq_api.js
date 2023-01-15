@@ -134,7 +134,7 @@ exports.getSessionAnswers = (req, res, next) => {
                   FROM Questionnaire 
                   INNER JOIN Answer ON Answer.QuestionnaireID = Questionnaire.QuestionnaireID
                   INNER JOIN Q_Option ON Q_Option.OptionID = Answer.OptionID
-                  WHERE Questionnaire.QuestionnaireID = ${QuestionnaireID} AND Answer.Session = ${session}
+                  WHERE Questionnaire.QuestionnaireID = ${QuestionnaireID} AND Answer.Session = '${session}'
                   ORDER BY Answer.QuestionID`;
 
         // Execute the SQL query

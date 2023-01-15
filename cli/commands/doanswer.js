@@ -1,19 +1,23 @@
-const conf = new (require("conf"))();
 const chalk = require("chalk");
+const request = require("request");
 
 function doanswer({ questionnaire_id, question_id, session, option_id }) {
-  // pass arguments to API request
-  console.log(
-    chalk.greenBright(
-      "You successfully answered the question with id =",
-      `'${question_id}'`,
-      "of questionnaire with id =",
-      `'${questionnaire_id}'`,
-      "in session with id =",
-      `'${session}'`,
-      "with the option with id =",
-      `'${option_id}'.`
-    )
+  request.post(
+    "http://localhost:9103/intelliq_api/doanswer/" +
+      `${questionnaire_id}` +
+      "/" +
+      `${question_id}` +
+      "/" +
+      `${session}` +
+      "/" +
+      `${option_id}`,
+    { json: true },
+    (err, res, body) => {
+      if (err) {
+        return console.error(err);
+      }
+      console.log(body);
+    }
   );
 }
 module.exports = doanswer;
