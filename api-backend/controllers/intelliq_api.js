@@ -24,9 +24,16 @@ exports.getQuestionnaire = (req, res, next) => {
         conn.promise().query(sql)
             .then(([rows, fields]) => {
                 pool.releaseConnection(conn);
-                res.status(200).json({
-                    questionnaire: rows
-                })
+                if (rows.length == 0) {
+                    res.status(402).json({
+                        message: "No data found!"
+                    })
+                }
+                else {
+                    res.status(200).json({
+                        questionnaire: rows
+                    })
+                }
             })
             .catch((err) => {
                 pool.releaseConnection(conn);
@@ -58,9 +65,16 @@ exports.getQuestion = (req, res, next) => {
         conn.promise().query(sql)
             .then(([rows, fields]) => {
                 pool.releaseConnection(conn);
-                res.status(200).json({
-                    question: rows
-                })
+                if (rows.length == 0) {
+                    res.status(402).json({
+                        message: "No data found!"
+                    })
+                }
+                else {
+                    res.status(200).json({
+                        question: rows
+                    })
+                }
             })
             .catch((err) => {
                 pool.releaseConnection(conn);
@@ -134,16 +148,23 @@ exports.getSessionAnswers = (req, res, next) => {
                   FROM Questionnaire 
                   INNER JOIN Answer ON Answer.QuestionnaireID = Questionnaire.QuestionnaireID
                   INNER JOIN Q_Option ON Q_Option.OptionID = Answer.OptionID
-                  WHERE Questionnaire.QuestionnaireID = ${QuestionnaireID} AND Answer.Session = ${session}
+                  WHERE Questionnaire.QuestionnaireID = ${QuestionnaireID} AND Answer.Session = '${session}'
                   ORDER BY Answer.QuestionID`;
 
         // Execute the SQL query
         conn.promise().query(sql)
         .then(([rows, fields]) => {
             pool.releaseConnection(conn);
-            res.status(200).json({
-                question: rows
-            })
+            if (rows.length == 0) {
+                res.status(402).json({
+                    message: "No data found!"
+                })
+            }
+            else {
+                res.status(200).json({
+                    answers: rows
+                })
+            }
         })
         .catch((err) => {
             pool.releaseConnection(conn);
@@ -173,9 +194,16 @@ exports.getQuestionAnswers = (req, res, next) => {
         conn.promise().query(sql)
         .then(([rows, fields]) => {
             pool.releaseConnection(conn);
-            res.status(200).json({
-                question: rows
-            })
+            if (rows.length == 0) {
+                res.status(402).json({
+                    message: "No data found!"
+                })
+            }
+            else {
+                res.status(200).json({
+                    answers: rows
+                })
+            }
         })
         .catch((err) => {
             pool.releaseConnection(conn);
