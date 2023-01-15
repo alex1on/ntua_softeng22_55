@@ -131,10 +131,19 @@ exports.getUser = (req, res, next) => {
         conn.promise().query(sqlQuery)
             .then(([rows, fields]) => {
                 pool.releaseConnection(conn);
-                res.status(200).json({
-                    status: 'OK',
-                    user: rows
-                })
+                if (rows.length == 0) {
+                    res.status(402).json({
+                        status: 'failed',
+                        message: 'Username doesn\'t exist'
+                    })
+                }
+                else {
+                    res.status(200).json({
+                        status: 'OK',
+                        user: rows
+                    })
+                }
+
             })
             .catch((err) => {
                 pool.releaseConnection(conn);
