@@ -24,9 +24,16 @@ exports.getQuestionnaire = (req, res, next) => {
         conn.promise().query(sql)
             .then(([rows, fields]) => {
                 pool.releaseConnection(conn);
-                res.status(200).json({
-                    questionnaire: rows
-                })
+                if (rows.length == 0) {
+                    res.status(402).json({
+                        message: "No data found!"
+                    })
+                }
+                else {
+                    res.status(200).json({
+                        questionnaire: rows
+                    })
+                }
             })
             .catch((err) => {
                 pool.releaseConnection(conn);
@@ -58,9 +65,16 @@ exports.getQuestion = (req, res, next) => {
         conn.promise().query(sql)
             .then(([rows, fields]) => {
                 pool.releaseConnection(conn);
-                res.status(200).json({
-                    question: rows
-                })
+                if (rows.length == 0) {
+                    res.status(402).json({
+                        message: "No data found!"
+                    })
+                }
+                else {
+                    res.status(200).json({
+                        question: rows
+                    })
+                }
             })
             .catch((err) => {
                 pool.releaseConnection(conn);
@@ -141,9 +155,16 @@ exports.getSessionAnswers = (req, res, next) => {
         conn.promise().query(sql)
         .then(([rows, fields]) => {
             pool.releaseConnection(conn);
-            res.status(200).json({
-                question: rows
-            })
+            if (rows.length == 0) {
+                res.status(402).json({
+                    message: "No data found!"
+                })
+            }
+            else {
+                res.status(200).json({
+                    answers: rows
+                })
+            }
         })
         .catch((err) => {
             pool.releaseConnection(conn);
@@ -173,9 +194,16 @@ exports.getQuestionAnswers = (req, res, next) => {
         conn.promise().query(sql)
         .then(([rows, fields]) => {
             pool.releaseConnection(conn);
-            res.status(200).json({
-                question: rows
-            })
+            if (rows.length == 0) {
+                res.status(402).json({
+                    message: "No data found!"
+                })
+            }
+            else {
+                res.status(200).json({
+                    answers: rows
+                })
+            }
         })
         .catch((err) => {
             pool.releaseConnection(conn);
