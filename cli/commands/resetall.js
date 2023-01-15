@@ -10,9 +10,14 @@ function resetall() {
     reset = prompt(chalk.yellowBright("Answer 'y' or 'n' "));
   }
   if (reset == "y") {
-    // reset call from rest API
-    request.post("http://localhost:9103/intelliq_api/admin/resetall");
-    console.log(chalk.greenBright("You successfully reset all the data."));
+    request.post("http://localhost:9103/intelliq_api/admin/resetall",
+    { json: true },
+    (err, res, body) => {
+      if (err) {
+        return console.error(err);
+      }
+      console.log(body);
+    });
   }
 }
 module.exports = resetall;

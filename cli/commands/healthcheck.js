@@ -3,7 +3,7 @@ const request = require("request");
 
 function healthcheck() {
   request.get(
-    "http://localhost:9103/intelliq_api/healthcheck",
+    "http://localhost:9103/intelliq_api/admin/healthcheck",
     { json: true },
     (err, res, body) => {
       if (err) {
