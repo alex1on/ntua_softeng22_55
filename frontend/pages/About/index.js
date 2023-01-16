@@ -84,7 +84,7 @@ export default function Poll() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="items-center p-6 rounded-lg">
+      <div className="flex flex-col flex-wrap justify-center text-center items-center p-6 rounded-lg">
         <h2 className="text-2xl font-medium ">Create your Survey</h2>
         <form>
           <div className="mb-4">
