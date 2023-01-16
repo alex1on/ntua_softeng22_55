@@ -1,4 +1,5 @@
 const { pool } = require('../db-init');
+const format_handler = require('../format_handler')
 
 exports.getHome = (req, res, next) => {
     res.send("This is Home Page");
@@ -8,6 +9,7 @@ exports.getHome = (req, res, next) => {
 // Handle get questionnaire request 
 exports.getQuestionnaire = (req, res, next) => {
     const questionnaireID = req.params.questionnaireID;
+    const format = req.query.format;
 
     pool.getConnection((err, conn) => {
 
@@ -24,16 +26,9 @@ exports.getQuestionnaire = (req, res, next) => {
         conn.promise().query(sql)
             .then(([rows, fields]) => {
                 pool.releaseConnection(conn);
-                if (rows.length == 0) {
-                    res.status(402).json({
-                        message: "No data found!"
-                    })
-                }
-                else {
-                    res.status(200).json({
-                        questionnaire: rows
-                    })
-                }
+                const filename = `questionnaire` + questionnaireID;
+                format_handler(format, rows, filename, res);
+
             })
             .catch((err) => {
                 pool.releaseConnection(conn);
@@ -83,7 +78,7 @@ exports.getQuestion = (req, res, next) => {
                     message: err.message
                 })
             })
-    }); 
+    });
 };
 
 // Handle doAnswer post
@@ -110,31 +105,31 @@ exports.doAnswer = (req, res, next) => {
 
                 // Execute the insert query
                 conn.promise().query(sqlInsertAnswer)
-                    .then( () => {
+                    .then(() => {
                         pool.releaseConnection(conn);
                         res.status(200).json({
-                        status: 'OK',
-                        message: "Answer Inserted successfully"
+                            status: 'OK',
+                            message: "Answer Inserted successfully"
                         })
                     })
                     .catch((err) => {
                         pool.releaseConnection(conn);
                         res.status(500).json({
-                        status: 'failed',
-                        message: err.message
+                            status: 'failed',
+                            message: err.message
                         })
                     })
+            })
+            .catch((err) => {
+                pool.releaseConnection(conn);
+                res.status(500).json({
+                    status: 'failed',
+                    message: err.message
                 })
-                .catch((err) => {
-                    pool.releaseConnection(conn);
-                    res.status(500).json({
-                        status: 'failed',
-                        message: err.message
-                    })
-                })
+            })
     });
 };
-        
+
 
 // Handle get answers request 
 exports.getSessionAnswers = (req, res, next) => {
