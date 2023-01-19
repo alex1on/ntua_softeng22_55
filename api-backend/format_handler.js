@@ -1,6 +1,6 @@
 const converter = require('json-2-csv')
 
-function format_handler(format, rows, filename, res) {
+function format_handler(format, rows, filename, res, object_name) {
     // In case of csv format, we set the HTTP headers accordingly
     // so it can send a .csv file with the questionnaire to the 
     // user. 
@@ -25,8 +25,8 @@ function format_handler(format, rows, filename, res) {
             .catch(err => console.log(err))
     }
     else if (format == 'json' || format == null) {
-        res.status(200).json({
-            questionnaire: rows
+        res.status(200).json({ 
+            [object_name] : rows
         })
     }
     else {
