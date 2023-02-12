@@ -1,3 +1,4 @@
+//const chalk = require("chalk");
 const request = require("request");
 const prompt = require("prompt-sync")({ sigint: true });
 

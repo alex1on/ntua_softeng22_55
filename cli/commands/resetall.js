@@ -11,13 +11,16 @@ function resetall() {
   }
   if (reset == "y") {
     request.post("http://localhost:9103/intelliq_api/admin/resetall",
-    { json: true },
-    (err, res, body) => {
-      if (err) {
-        return console.error(err);
+      { 
+       json: true ,
+        callback:(err, res, body) => {
+         if (err) {
+            return console.error(err);
+          }
+         console.log(body);
+        }
       }
-      console.log(body);
-    });
+    )
   }
 }
 module.exports = resetall;

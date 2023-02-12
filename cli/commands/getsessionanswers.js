@@ -10,32 +10,30 @@ function getsessionanswers({ questionnaire_id, session, format }) {
 
     if (format == "json") {
       request.get(
-        "http://localhost:9103/intelliq_api/getsessionanswers/" +
-          `${questionnaire_id}` +
-          "/" +
-          `${session}`,
-        { json: true },
-        (err, res, body) => {
-          if (err) {
-            return console.error(err);
+        `http://localhost:9103/intelliq_api/getsessionanswers/${questionnaire_id}/${session}`,
+        { 
+          json: true ,
+          callback:(err, res, body) => {
+            if (err) {
+              return console.error(err);
+            }
+            printMsg(questionnaire_id, session, format);
+            console.log(body);
           }
-          printMsg(questionnaire_id, session, format);
-          console.log(body);
         }
-      );
+      )
     } else {
       request.get(
-        "http://localhost:9103/intelliq_api/getsessionanswers/" +
-          `${questionnaire_id}` +
-          "/" +
-          `${session}`,
-        (err, res, body) => {
-          if (err) {
-            return console.error(err);
+        `http://localhost:9103/intelliq_api/getsessionanswers/${questionnaire_id}/${session}`,
+        {
+          callback:(err, res, body) => {
+            if (err) {
+              return console.error(err);
+            }
+            // Print csv object
+            printMsg(questionnaire_id, session, format);
+            console.log("csv format not ready yet...");
           }
-          // Print csv object
-          printMsg(questionnaire_id, session, format);
-          console.log("csv format not ready yet...");
         }
       );
     }
