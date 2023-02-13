@@ -12,7 +12,8 @@ function AwaitRequest(url,method){
     request( {
         url,
         method,
-        json:true,
+        strictSSL: false,
+        json: true,
         callback:(err, res, body) => {
         if (err) {
           reject(err);
@@ -37,7 +38,7 @@ function GetUserInput(question){
 async function AnswerQuestion(questionnaire_id,question_id,session){
     console.clear()
     const { question }= await AwaitRequest(
-        `http://localhost:9103/intelliq_api/question/${questionnaire_id}/${question_id}`,
+        `https://localhost:9103/intelliq_api/question/${questionnaire_id}/${question_id}`,
         `get`
     )
     console.log(question.qtext)
@@ -46,7 +47,7 @@ async function AnswerQuestion(questionnaire_id,question_id,session){
     }
     const SelectedOption = GetUserInput(question)
     await AwaitRequest(
-        `http://localhost:9103/intelliq_api/doanswer/${questionnaire_id}/${question_id}/${session}/${SelectedOption.NextQID}`,
+        `https://localhost:9103/intelliq_api/doanswer/${questionnaire_id}/${question_id}/${session}/${SelectedOption.NextQID}`,
         "post"
     )
     if (SelectedOption.NextQID === null ) return;

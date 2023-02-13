@@ -3,16 +3,19 @@ const request = require("request");
 
 function login({ username, passw }) {
   request.post(
-    `http://localhost:9103/intelliq_api/login/${username}/${passw}`,
+    `https://localhost:9103/intelliq_api/login/${username}/${passw}`,
     {
-      json: true ,
-      callback:(err, res, body) => {
+      // using strictSSL: false means that we ignore the self-signed certificate.
+      // We only do this during development phase and should be removed if we obtain
+      // a trusted SSL certificate.
+      json: true, strictSSL: false,
+      callback: (err, res, body) => {
         if (err) {
           return console.error(err);
         }
         console.log(body);
-      }
+      },
     }
-  )
+  );
 }
 module.exports = login;

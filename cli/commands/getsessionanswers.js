@@ -10,22 +10,25 @@ function getsessionanswers({ questionnaire_id, session, format }) {
 
     if (format == "json") {
       request.get(
-        `http://localhost:9103/intelliq_api/getsessionanswers/${questionnaire_id}/${session}`,
-        { 
-          json: true ,
-          callback:(err, res, body) => {
+        `https://localhost:9103/intelliq_api/getsessionanswers/${questionnaire_id}/${session}`,
+        {
+          // using strictSSL: false means that we ignore the self-signed certificate.
+          // We only do this during development phase and should be removed if we obtain
+          // a trusted SSL certificate.
+          json: true, strictSSL: false,
+          callback: (err, res, body) => {
             if (err) {
               return console.error(err);
             }
             printMsg(questionnaire_id, session, format);
             console.log(body);
-          }
+          },
         }
-      )
+      );
     } else {
       request.get(
-        `http://localhost:9103/intelliq_api/getsessionanswers/${questionnaire_id}/${session}`,
-        {
+        `https://localhost:9103/intelliq_api/getsessionanswers/${questionnaire_id}/${session}`,
+        { strictSSL: false,
           callback:(err, res, body) => {
             if (err) {
               return console.error(err);

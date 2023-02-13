@@ -10,22 +10,25 @@ function questionnaire({ questionnaire_id, format }) {
 
     if (format == "json") {
       request.get(
-        `http://localhost:9103/intelliq_api/questionnaire/${questionnaire_id}`,
-        { 
-          json: true ,
-          callback:(err, res, body) => {
+        `https://localhost:9103/intelliq_api/questionnaire/${questionnaire_id}`,
+        {
+          // using strictSSL: false means that we ignore the self-signed certificate.
+          // We only do this during development phase and should be removed if we obtain
+          // a trusted SSL certificate.
+          json: true, strictSSL: false,
+          callback: (err, res, body) => {
             if (err) {
               return console.error(err);
             }
             printMsg(questionnaire_id, format);
             console.log(body);
-          }
+          },
         }
-      )
+      );
     } else {
       request.get(
-        `http://localhost:9103/intelliq_api/questionnaire/${questionnaire_id}`,
-        {
+        `https://localhost:9103/intelliq_api/questionnaire/${questionnaire_id}`,
+        { strictSSL: false,
           callback:(err, res, body) => {
             if (err) {
               return console.error(err);
