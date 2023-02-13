@@ -1,5 +1,5 @@
 const chalk = require("chalk");
-const prompt = require("prompt-sync")();
+const prompt = require("prompt-sync")({ sigint: true });
 const request = require("request");
 
 function resetq({ questionnaire_id }) {

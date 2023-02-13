@@ -100,6 +100,24 @@ CREATE TABLE Answer (
     PRIMARY KEY (Session, OptionID, QuestionID, QuestionnaireID)
 ); 
 
+-- Triggers
+
+DELIMITER &&
+
+CREATE TRIGGER trigInsert_option_nextQuestion BEFORE INSERT ON Q_Option FOR EACH ROW BEGIN
+	IF NOT ((SELECT QuestionnaireID FROM Question WHERE QuestionID = NEW.NextQID) = NEW.QuestionnaireID) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'The ID of the next question you provided does not match with a question ID of this questionnaire.';
+	END IF;
+END&&
+
+CREATE TRIGGER trigUpdate_option_nextQuestion BEFORE UPDATE ON Q_Option FOR EACH ROW BEGIN
+	IF NOT ((SELECT QuestionnaireID FROM Question WHERE QuestionID = NEW.NextQID) = NEW.QuestionnaireID) THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'The ID of the next question you provided does not match with a question ID of this questionnaire.';
+	END IF;
+END&&
+
+DELIMITER ;
+
 SET SQL_MODE = @OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS = @OLD_UNIQUE_CHECKS;
