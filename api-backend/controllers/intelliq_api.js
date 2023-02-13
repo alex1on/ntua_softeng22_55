@@ -14,6 +14,14 @@ exports.getQuestionnaire = (req, res, next) => {
     const questionnaireID = req.params.questionnaireID;
     const format = req.query.format;
     
+    if (isNaN(questionnaireID)) {
+        res.status(400).json({
+            status: 'failed',
+            message: "Bad Request: Invalid questionnaireID"
+        });
+        return;
+    }
+
     pool.getConnection((err, conn) => {
 
         // SQL query to retrieve Questionnaire's Title
@@ -101,6 +109,14 @@ exports.getQuestion = (req, res, next) => {
     const questionnaireID = req.params.questionnaireID;
     const questionID = req.params.questionID;
     const format = req.query.format;
+
+    if(isNaN(questionnaireID) || isNaN(questionID)) {
+        res.status(400).json({
+            status: 'failed',
+            message: "Bad Request: Invalid questionnaireID or questionID"
+        });
+        return;
+    }
 
     pool.getConnection((err, conn) => {
 
@@ -196,6 +212,14 @@ exports.doAnswer = (req, res, next) => {
     const session = req.params.session;
     const OptionID = req.params.optionID;
 
+    if(isNaN(QuestionnaireID) || isNaN(QuestionID) || isNaN(OptionID) || Buffer.byteLength(session, "utf-8")!= 4) {
+        res.status(400).json({
+            status: 'failed',
+            message: "Bad Request: Invalid parameters"
+        });
+        return;
+    }
+
     pool.getConnection((err, conn) => {
 
         // SQL query to insert the answer into the Answer table
@@ -227,6 +251,14 @@ exports.getSessionAnswers = (req, res, next) => {
     const questionnaireID = req.params.questionnaireID;
     const session = req.params.session;
     const format = req.query.format;
+
+    if(isNaN(questionnaireID) || Buffer.byteLength(session, "utf-8")!= 4) {
+        res.status(400).json({
+            status: 'failed',
+            message: "Bad Request: Invalid parameters"
+        });
+        return;
+    }
 
     pool.getConnection((err, conn) => {
 
@@ -289,6 +321,14 @@ exports.getQuestionAnswers = (req, res, next) => {
     const QuestionnaireID = req.params.questionnaireID;
     const QuestionID = req.params.questionID;
     const format = req.query.format;
+
+    if(isNaN(QuestionnaireID) || isNaN(QuestionID)) {
+        res.status(400).json({
+            status: 'failed',
+            message: "Bad Request: Invalid parameters"
+        });
+        return;
+    }
 
     pool.getConnection((err, conn) => {
 
