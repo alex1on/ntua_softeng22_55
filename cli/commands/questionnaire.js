@@ -10,30 +10,32 @@ function questionnaire({ questionnaire_id, format }) {
 
     if (format == "json") {
       request.get(
-        "http://localhost:9103/intelliq_api/questionnaire/" +
-          `${questionnaire_id}`,
-        { json: true },
-        (err, res, body) => {
-          if (err) {
-            return console.error(err);
+        `http://localhost:9103/intelliq_api/questionnaire/${questionnaire_id}`,
+        { 
+          json: true ,
+          callback:(err, res, body) => {
+            if (err) {
+              return console.error(err);
+            }
+            printMsg(questionnaire_id, format);
+            console.log(body);
           }
-          printMsg(questionnaire_id, format);
-          console.log(body);
         }
-      );
+      )
     } else {
       request.get(
-        "http://localhost:9103/intelliq_api/questionnaire/" +
-          `${questionnaire_id}`,
-        (err, res, body) => {
-          if (err) {
-            return console.error(err);
+        `http://localhost:9103/intelliq_api/questionnaire/${questionnaire_id}`,
+        {
+          callback:(err, res, body) => {
+            if (err) {
+              return console.error(err);
+            }
+            // Print csv object
+            printMsg(questionnaire_id, format);
+            console.log("csv format not ready yet...");
           }
-          // Print csv object
-          printMsg(questionnaire_id, format);
-          console.log("csv format not ready yet...");
         }
-      );
+      )
     }
   }
 }
@@ -48,5 +50,5 @@ function printMsg(questionnaire_id, format) {
         `${format}`,
         "format is:\n"
       )
-  );
+  )
 }
