@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Router from "next/router";
 import styles from "../styles/Home.module.css";
 
 export default function LoginPage() {
+  
   return (
     <>
       <Head>
@@ -15,22 +16,26 @@ export default function LoginPage() {
           <h1 className="relative font-bold text-left text-gray-500 text-l">
             IntelliQ
           </h1>
-          <div className="flex flex-col items-center text-gray-500">
+          <form className="flex flex-col items-center text-gray-500">
             <h2 className="mt-6 mb-2 text-3xl font-bold ">
               Sign in to Account
             </h2>
             <div className="inline-block w-10 mb-4 border-2 border-gray-500"></div>
             <label className="text-left">Email</label>
-            <input
+            <input 
               type="text"
+              id = "username"
+              required
               className="p-2 mb-2 bg-gray-100 rounded-md text-slate-600"
             />
             <label className="text-left">Password</label>
             <input
+              id = "password"
+              required
               type="password"
               className="p-2 bg-gray-100 rounded-md text-slate-600"
             />
-          </div>
+          </form>
         </div>
         {/* Sign in section*/}
         {/*Below starts the sign up section*/}
