@@ -13,6 +13,7 @@ const getquestionanswers = require("./commands/getquestionanswers");
 const doanswer = require("./commands/doanswer");
 const questionnaire_upd = require("./commands/questionnaire_upd");
 const admin = require("./commands/admin");
+const AnswerQuestionnaire = require("./commands/AnswerQuestionnaire");
 
 program
   .command("login")
@@ -147,5 +148,13 @@ program
     "The password of the new user or the current password of an existing username."
   )
   .action(admin);
+
+program
+  .command("AnswerQuestionnaire")
+  .description("Answer a questionnaire from start to finish")
+  .requiredOption("-Q, --questionnaire_id <questionnaire_id>", "")
+  .requiredOption("-s, --session <session>", "")
+  .action(AnswerQuestionnaire);
+
 
 program.parse();

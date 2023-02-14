@@ -14,7 +14,7 @@ function questionnaire_upd({ source }) {
       chalk.greenBright("\nYou successfully uploaded a new questionnaire!")
     );
   } catch (err) {
-    console.error(err);
+    console.error(err)
   }
 }
 module.exports = questionnaire_upd;

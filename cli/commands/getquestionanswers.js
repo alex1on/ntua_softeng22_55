@@ -9,34 +9,35 @@ function getquestionanswers({ questionnaire_id, question_id, format }) {
   } else {
     if (format == "json") {
       request.get(
-        "http://localhost:9103/intelliq_api/getquestionanswers/" +
-          `${questionnaire_id}` +
-          "/" +
-          `${question_id}`,
-        { json: true },
-        (err, res, body) => {
-          if (err) {
-            return console.error(err);
-          }
-          printMsg(questionnaire_id, question_id, format);
-          console.log(body);
+        `https://localhost:9103/intelliq_api/getquestionanswers/${questionnaire_id}/${question_id}`,
+        {
+          // using strictSSL: false means that we ignore the self-signed certificate.
+          // We only do this during development phase and should be removed if we obtain
+          // a trusted SSL certificate.
+          json: true, strictSSL: false,
+          callback: (err, res, body) => {
+            if (err) {
+              return console.error(err);
+            }
+            printMsg(questionnaire_id, question_id, format);
+            console.log(body);
+          },
         }
       );
     } else {
       request.get(
-        "http://localhost:9103/intelliq_api/getquestionanswers/" +
-          `${questionnaire_id}` +
-          "/" +
-          `${question_id}`,
-        (err, res, body) => {
-          if (err) {
-            return console.error(err);
+        `https://localhost:9103/intelliq_api/getquestionanswers/${questionnaire_id}/${question_id}`,
+        { strictSSL: false,
+          callback:(err, res, body) => {
+            if (err) {
+              return console.error(err);
+            }
+            // Print csv object
+            printMsg(questionnaire_id, question_id, format);
+            console.log("csv format not ready yet...");
           }
-          // Print csv object
-          printMsg(questionnaire_id, question_id, format);
-          console.log("csv format not ready yet...");
         }
-      );
+      )
     }
   }
 }
