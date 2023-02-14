@@ -1,5 +1,6 @@
 const { pool } = require('../db-init');
 const { ConnectionString } = require('connection-string');
+const statistics = require('../statistics/statistics');
 
 exports.getAdminHome = (req, res, next) => {
     // TODO: RENDER ADMIN HOMEPAGE 
@@ -35,6 +36,7 @@ exports.postResetall = (req, res, next) => {
         var sqlQuery = `DELETE FROM Q_User`;
         conn.promise().query(sqlQuery)
             .then(() => {
+                statistics.resetallStatistics();
                 pool.releaseConnection(conn);
                 res.status(200).json({ status: 'OK' })
             })
@@ -58,6 +60,7 @@ exports.postResetq = (req, res, next) => {
 
         conn.promise().query(sqlQuery)
             .then(() => {
+                statistics.resetQuestionnaireAnswers(QID);
                 pool.releaseConnection(conn);
                 res.status(200).json({ status: 'OK' });
             })
