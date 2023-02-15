@@ -61,7 +61,7 @@ export default function Home() {
 
         <div className={styles.grid}>
           <a
-            href="/Create"
+            href="/Poll"
             className={styles.card}
             target="_blank"
             rel="noopener noreferrer"
@@ -81,38 +81,38 @@ export default function Home() {
             rel="noopener noreferrer"
           >
             <h2 className={inter.className}>
-              Create a new Survey <span>-&gt;</span>
+              Create your Survey <span>-&gt;</span>
             </h2>
             <p className={inter.className}>
-              Create your own survey
+              Create your own questionnaire.
             </p>
           </a>
 
           <a
-            href=""
+            href="/statistics"
             className={styles.card}
             target="_blank"
             rel="noopener noreferrer"
           >
             <h2 className={inter.className}>
-              Results <span>-&gt;</span>
+             Statistics <span>-&gt;</span>
             </h2>
             <p className={inter.className}>
-              Extract and use statistical results.
+              Extract and get statistical results.
             </p>
           </a>
 
           <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+            href="/Preview"
             className={styles.card}
             target="_blank"
             rel="noopener noreferrer"
           >
             <h2 className={inter.className}>
-              Watch the already created surveys <span>-&gt;</span>
+              Preview some of  the already created surveys <span>-&gt;</span>
             </h2>
             <p className={inter.className}>
-              Go through
+              Feel free to go through.
             </p>
           </a>
         </div>
