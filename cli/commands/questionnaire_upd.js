@@ -2,6 +2,7 @@ const chalk = require("chalk");
 const fs = require("fs");
 const request = require("request");
 const FormData = require("form-data");
+const path = require("path");
 
 function questionnaire_upd({ source }) {
   try {
@@ -10,9 +11,14 @@ function questionnaire_upd({ source }) {
       return;
     }
 
+    if (path.extname(source) !== ".json") {
+      console.error("File is not a JSON file.");
+      return;
+    }
+
     var jsonData;
 
-    var file = fs.readFile(`${source}`, (err, data) => {
+    fs.readFile(`${source}`, (err, data) => {
       if (err) {
         console.error(err);
         return;
@@ -40,9 +46,6 @@ function questionnaire_upd({ source }) {
             return console.error(err);
           }
           console.log(body);
-          console.log(
-            chalk.greenBright("\nYou successfully uploaded a new questionnaire!")
-          );
         }
       );
 
