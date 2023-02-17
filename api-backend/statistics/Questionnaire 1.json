@@ -1,6 +1,6 @@
 {
   "Questionnaire 1": {
-    "QuestionnaireID": 1,
+    "QuestionnaireID": "1",
     "QuestionnaireTitle": "Manos",
     "UserID": 1,
     "keywords": [
@@ -8,33 +8,46 @@
     ],
     "Questions": [
       {
-        "QuestionID": 1,
+        "QuestionID": "1",
         "QText": "Question1",
         "Required": "true",
         "Type": "Research",
         "Options": [
           {
-            "OptionID": 1,
+            "OptionID": "1",
             "OptionText": "A",
-            "Times_Selected": 0,
-            "Selection_Rate": 0,
-            "Sessions_Selected": [],
-            "NextQID": 2
+            "Times_Selected": 4,
+            "Selection_Rate": 80,
+            "Sessions_Selected": [
+              "ab11",
+              "session1",
+              "session2",
+              "ab12"
+            ],
+            "NextQID": "2"
           },
           {
-            "OptionID": 2,
+            "OptionID": "2",
             "OptionText": "B",
-            "Times_Selected": 0,
-            "Selection_Rate": 0,
-            "Sessions_Selected": [],
-            "NextQID": 2
+            "Times_Selected": 1,
+            "Selection_Rate": 20,
+            "Sessions_Selected": [
+              "session3"
+            ],
+            "NextQID": "2"
           }
         ],
-        "Answers": 0,
-        "Sessions_Answered": []
+        "Answers": 5,
+        "Sessions_Answered": [
+          "ab11",
+          "session1",
+          "session2",
+          "session3",
+          "ab12"
+        ]
       },
       {
-        "QuestionID": 2,
+        "QuestionID": "2",
         "QText": "Question3",
         "Required": "true",
         "Type": "Research",
@@ -48,7 +61,13 @@
     "Non_Required_Questions": 0,
     "Personal_Questions": 0,
     "Research_Questions": 2,
-    "Answers": 0,
-    "Sessions_Answered": []
+    "Answers": 5,
+    "Sessions_Answered": [
+      "ab11",
+      "session1",
+      "session2",
+      "session3",
+      "ab12"
+    ]
   }
 }
