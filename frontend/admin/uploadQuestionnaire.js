@@ -28,7 +28,7 @@ async function uploadQuestionnaire(file) {
       }
       //An epistrepsei 200 shmanei oti oloklirothike to request
       const data = await response.json();
-      //Edw epistrefw genika ta dedomena poy apantise to API alla esu mporeis na epistrepseis sxetiko mhnuma
+      //Edw epistrefw genika ta dedomena poy apantise to API alla mporeis na epistrepseis sxetiko mhnuma
       return data;
     } catch (error) {
       console.error(error);
