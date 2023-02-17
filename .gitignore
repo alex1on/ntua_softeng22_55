@@ -3,3 +3,6 @@ node_modules/
 server.cert
 server.key
 rnd
+questionnaire_sample.json
+api-backend/test_poll.json
+questionnaire_sample.json
