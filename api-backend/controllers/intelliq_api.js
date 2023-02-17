@@ -6,7 +6,7 @@ const statistics = require('../statistics/statistics')
 //const error_handler = require('./error_handler')
 
 exports.getHome = (req, res, next) => {
-    res.send("This is Home Page");
+    res.status(200).json("This is Home Page");
     //statistics.file_creator(1,"Manos",1);
     //statistics.AddKeyword(1,"Key1");
     //statistics.AddQuestion(1, 1, "Question1", "true", "Research");

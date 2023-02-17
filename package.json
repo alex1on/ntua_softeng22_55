@@ -29,6 +29,7 @@
     "commander": "^9.5.0",
     "conf": "^10.2.0",
     "connection-string": "^4.3.6",
+    "cors": "^2.8.5",
     "eslint": "8.29.0",
     "eslint-config-next": "13.0.7",
     "execa": "^6.1.0",
