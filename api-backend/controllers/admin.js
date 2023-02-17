@@ -56,7 +56,7 @@ exports.postResetq = (req, res, next) => {
     const QID = req.params.questionnaireID;
 
     pool.getConnection((err, conn) => {
-        var sqlQuery = `DELETE FROM Answer WHERE QuestionnaireID = ${QID}`;
+        var sqlQuery = `DELETE FROM Answer WHERE QuestionnaireID = '${QID}'`;
 
         conn.promise().query(sqlQuery)
             .then(() => {
