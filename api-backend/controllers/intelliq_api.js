@@ -38,12 +38,12 @@ exports.getQuestionnaire = (req, res, next) => {
     pool.getConnection((err, conn) => {
 
         // SQL query to retrieve Questionnaire's Title
-        var sqlFindTitle = `SELECT QuestionnaireTitle FROM Questionnaire WHERE QuestionnaireID = ${questionnaireID}`;
+        var sqlFindTitle = `SELECT QuestionnaireTitle FROM Questionnaire WHERE QuestionnaireID = '${questionnaireID}'`;
         // SQL query to retrieve Questionnaire's Keywords
-        var sqlFindKeywords = `SELECT Keywords.KeywordsText FROM Keywords WHERE QuestionnaireID = ${questionnaireID}`;
+        var sqlFindKeywords = `SELECT Keywords.KeywordsText FROM Keywords WHERE QuestionnaireID = '${questionnaireID}'`;
         // SQL query to retrieve Questionnaire's Questions
         var sqlFindQuestions = `SELECT QuestionID, QText, Q_Required, Q_Type FROM Question 
-                                WHERE QuestionnaireID = ${questionnaireID}
+                                WHERE QuestionnaireID = '${questionnaireID}'
                                 ORDER BY QuestionID`; 
 
         var Title, Keywords, Questions;
@@ -135,12 +135,12 @@ exports.getQuestion = (req, res, next) => {
 
         // SQL query to retrieve Question's Text, Type and Required fields
         var sqlFind_TRT = `SELECT QText, Q_Required, Q_Type FROM Question WHERE 
-                          QuestionnaireID = ${questionnaireID} AND QuestionID = ${questionID};`;
+                          QuestionnaireID = '${questionnaireID}' AND QuestionID = '${questionID}';`;
 
         // SQL query to retrieve Question's Options
         var sqlFindOptions = `SELECT O.OptionID, O.OptText, O.NextQID 
                               FROM Q_Option O INNER JOIN Question Q ON O.QuestionID = Q.QuestionID 
-                              WHERE Q.QuestionnaireID = ${questionnaireID} AND Q.QuestionID = ${questionID}
+                              WHERE Q.QuestionnaireID = '${questionnaireID}' AND Q.QuestionID = '${questionID}'
                               ORDER BY O.OptionID`;
 
         var Text, Required, Type, Options;
@@ -237,7 +237,7 @@ exports.doAnswer = (req, res, next) => {
 
         // SQL query to insert the answer into the Answer table
         var sqlInsertAnswer = `INSERT INTO Answer (QuestionnaireID, QuestionID, Session, OptionID) VALUES 
-                              (${QuestionnaireID},${QuestionID},'${session}',${OptionID})`;
+                              ('${QuestionnaireID}','${QuestionID}','${session}','${OptionID}')`;
 
         // Execute the insert query
         conn.promise().query(sqlInsertAnswer)
@@ -279,7 +279,7 @@ exports.getSessionAnswers = (req, res, next) => {
         
         // SQL query to retrieve the session answers
         var sqlFindAnswers = `SELECT QuestionID, OptionID FROM Answer 
-                              WHERE QuestionnaireID = ${questionnaireID} AND SESSION = '${session}' 
+                              WHERE QuestionnaireID = '${questionnaireID}' AND SESSION = '${session}' 
                               ORDER BY QuestionID`;
         var Answers;
 
@@ -348,7 +348,7 @@ exports.getQuestionAnswers = (req, res, next) => {
 
         // SQL query to retrieve the answers of the Question that belongs to the Questionnaire
         const sqlFindAnswers = `SELECT Session, OptionID FROM Answer
-                                WHERE QuestionnaireID = ${QuestionnaireID} AND QuestionID = ${QuestionID}
+                                WHERE QuestionnaireID = '${QuestionnaireID}' AND QuestionID = '${QuestionID}'
                                 ORDER BY Answer.last_update`;
 
         var Answers;
