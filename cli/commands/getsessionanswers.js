@@ -1,5 +1,6 @@
 const chalk = require("chalk");
 const request = require("request");
+const csv = require("csv-parser");
 
 function getsessionanswers({ questionnaire_id, session, format }) {
   if (format !== "json" && format !== "csv") {
@@ -20,22 +21,28 @@ function getsessionanswers({ questionnaire_id, session, format }) {
             if (err) {
               return console.error(err);
             }
-            printMsg(questionnaire_id, session, format);
             console.log(body);
           },
         }
       );
     } else {
       request.get(
-        `https://localhost:9103/intelliq_api/getsessionanswers/${questionnaire_id}/${session}`,
+        `https://localhost:9103/intelliq_api/getsessionanswers/${questionnaire_id}/${session}?format=csv`,
         { strictSSL: false,
           callback:(err, res, body) => {
             if (err) {
               return console.error(err);
             }
-            // Print csv object
-            printMsg(questionnaire_id, session, format);
-            console.log("csv format not ready yet...");
+            const results = [];
+            const stream = csv({ headers: true })
+              .on("data", (data) => results.push(data))
+              .on("end", () => {
+                for (const row of results) {
+                  console.log(row);
+                }
+              });
+            stream.write(body);
+            stream.end();
           }
         }
       );
@@ -43,17 +50,3 @@ function getsessionanswers({ questionnaire_id, session, format }) {
   }
 }
 module.exports = getsessionanswers;
-
-function printMsg(questionnaire_id, session, format) {
-  console.log(
-    chalk.greenBright(
-      "The answers of session with id =",
-      `'${session}'`,
-      "for questionnaire with id =",
-      `'${questionnaire_id}'`,
-      "in",
-      `${format}`,
-      "format are:"
-    )
-  );
-}
