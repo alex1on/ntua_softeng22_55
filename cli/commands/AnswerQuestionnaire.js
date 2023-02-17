@@ -1,10 +1,9 @@
-//const chalk = require("chalk");
 const request = require("request");
 const prompt = require("prompt-sync")({ sigint: true });
 
 
 async function AnswerQuestionnaire({ questionnaire_id, session}){
-  await AnswerQuestion(questionnaire_id,1,session)
+  await AnswerQuestion(questionnaire_id,"P01",session)
 }
 
 function AwaitRequest(url,method){
@@ -47,7 +46,7 @@ async function AnswerQuestion(questionnaire_id,question_id,session){
     }
     const SelectedOption = GetUserInput(question)
     await AwaitRequest(
-        `https://localhost:9103/intelliq_api/doanswer/${questionnaire_id}/${question_id}/${session}/${SelectedOption.NextQID}`,
+        `https://localhost:9103/intelliq_api/doanswer/${questionnaire_id}/${question_id}/${session}/${SelectedOption.OptionID}`,
         "post"
     )
     if (SelectedOption.NextQID === null ) return;
