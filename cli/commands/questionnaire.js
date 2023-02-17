@@ -1,5 +1,6 @@
 const chalk = require("chalk");
 const request = require("request");
+const csv = require("csv-parser");
 
 function questionnaire({ questionnaire_id, format }) {
   if (format !== "json" && format !== "csv") {
@@ -7,7 +8,6 @@ function questionnaire({ questionnaire_id, format }) {
       chalk.red("error: '--format' value has to be either 'json' or 'csv'")
     );
   } else {
-
     if (format == "json") {
       request.get(
         `https://localhost:9103/intelliq_api/questionnaire/${questionnaire_id}`,
@@ -15,43 +15,39 @@ function questionnaire({ questionnaire_id, format }) {
           // using strictSSL: false means that we ignore the self-signed certificate.
           // We only do this during development phase and should be removed if we obtain
           // a trusted SSL certificate.
-          json: true, strictSSL: false,
+          json: true,
+          strictSSL: false,
           callback: (err, res, body) => {
             if (err) {
               return console.error(err);
             }
-            printMsg(questionnaire_id, format);
             console.log(body);
           },
         }
       );
     } else {
       request.get(
-        `https://localhost:9103/intelliq_api/questionnaire/${questionnaire_id}`,
-        { strictSSL: false,
-          callback:(err, res, body) => {
+        `https://localhost:9103/intelliq_api/questionnaire/${questionnaire_id}?format=csv`,
+        {
+          strictSSL: false,
+          callback: (err, res, body) => {
             if (err) {
               return console.error(err);
             }
-            // Print csv object
-            printMsg(questionnaire_id, format);
-            console.log("csv format not ready yet...");
-          }
+            const results = [];
+            const stream = csv({ headers: true })
+              .on("data", (data) => results.push(data))
+              .on("end", () => {
+                for (const row of results) {
+                  console.log(row);
+                }
+              });
+            stream.write(body);
+            stream.end();
+          },
         }
-      )
+      );
     }
   }
 }
 module.exports = questionnaire;
-
-function printMsg(questionnaire_id, format) {
-  console.log(
-      chalk.greenBright(
-        "The questionnaire with questionnaire_id =",
-        `'${questionnaire_id}'`,
-        "in",
-        `${format}`,
-        "format is:\n"
-      )
-  )
-}
