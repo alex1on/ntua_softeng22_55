@@ -6,7 +6,7 @@ function questionnaire_upd({ source }) {
     let rawdata = fs.readFileSync(source);
     let jsonObj = JSON.parse(rawdata);
 
-    console.log(jsonObj)
+    console.log(jsonObj);
 
     //   pass arguments to API request
 
@@ -14,7 +14,7 @@ function questionnaire_upd({ source }) {
       chalk.greenBright("\nYou successfully uploaded a new questionnaire!")
     );
   } catch (err) {
-    console.error(err)
+    console.log(JSON.stringify(body, null, 4));
   }
 }
 module.exports = questionnaire_upd;

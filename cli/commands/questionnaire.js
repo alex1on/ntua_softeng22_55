@@ -21,7 +21,7 @@ function questionnaire({ questionnaire_id, format }) {
               return console.error(err);
             }
             printMsg(questionnaire_id, format);
-            console.log(body);
+            console.log(JSON.stringify(body, null, 4));
           },
         }
       );

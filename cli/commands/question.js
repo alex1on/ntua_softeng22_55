@@ -21,7 +21,7 @@ function question({ questionnaire_id, question_id, format }) {
               return console.error(err);
             }
             printMsg(questionnaire_id, question_id, format);
-            console.log(body);
+            console.log(JSON.stringify(body, null, 4));
           }
         }
       )

@@ -14,30 +14,32 @@ function getquestionanswers({ questionnaire_id, question_id, format }) {
           // using strictSSL: false means that we ignore the self-signed certificate.
           // We only do this during development phase and should be removed if we obtain
           // a trusted SSL certificate.
-          json: true, strictSSL: false,
+          json: true,
+          strictSSL: false,
           callback: (err, res, body) => {
             if (err) {
               return console.error(err);
             }
             printMsg(questionnaire_id, question_id, format);
-            console.log(body);
+            console.log(JSON.stringify(body, null, 4));
           },
         }
       );
     } else {
       request.get(
         `https://localhost:9103/intelliq_api/getquestionanswers/${questionnaire_id}/${question_id}`,
-        { strictSSL: false,
-          callback:(err, res, body) => {
+        {
+          strictSSL: false,
+          callback: (err, res, body) => {
             if (err) {
               return console.error(err);
             }
             // Print csv object
             printMsg(questionnaire_id, question_id, format);
             console.log("csv format not ready yet...");
-          }
+          },
         }
-      )
+      );
     }
   }
 }
