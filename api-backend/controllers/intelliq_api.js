@@ -7,17 +7,17 @@ const statistics = require('../statistics/statistics')
 
 exports.getHome = (req, res, next) => {
     res.send("This is Home Page");
-    //statistics.file_creator(1,"Manos",1);
-    //statistics.AddKeyword(1,"Key1");
-    //statistics.AddQuestion(1, 1, "Question1", "true", "Research");
-    //statistics.AddQuestion(1, 2, "Question3", "true", "Research");
-    //statistics.AddOption(1,1,1,"A",2);
-    //statistics.AddOption(1,1,2,"B",2);
-    //statistics.AddAnswer(1,1,"ab11",1);
-    //statistics.AddAnswer(1,1,"session1",1);
-    //statistics.AddAnswer(1,1,"session2",1);
-    //statistics.AddAnswer(1,1,"session3",2);
-    // const x = statistics.getQuestionnaireFile(1);
+    //statistics.file_creator("1","Manos", 1);
+    //statistics.AddKeyword("1","Key1");
+    //statistics.AddQuestion("1", "1", "Question1", "true", "Research");
+    //statistics.AddQuestion("1", "2", "Question3", "true", "Research");
+    //statistics.AddOption("1","1","1","A","2");
+    //statistics.AddOption("1","1","2","B","2");
+    //statistics.AddAnswer("1","1","ab11","1");
+    //statistics.AddAnswer("1","1","session1","1");
+    //statistics.AddAnswer("1","1","session2","1");
+    //statistics.AddAnswer("1","1","session3","2");
+    // const x = statistics.getQuestionnaireFile("1");
     // console.log(x);
     // HOME PAGE
 }
@@ -242,6 +242,7 @@ exports.doAnswer = (req, res, next) => {
         // Execute the insert query
         conn.promise().query(sqlInsertAnswer)
             .then(() => {
+                statistics.AddAnswer(QuestionnaireID, QuestionID, session, OptionID);
                 pool.releaseConnection(conn);
                 res.status(200).json({
                     status: 'OK',
