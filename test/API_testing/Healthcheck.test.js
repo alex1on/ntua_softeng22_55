@@ -27,7 +27,7 @@ describe('Healthcheck Format', function() {
             if (typeof data.status !== 'string' && data.status !== 'OK' && data.status !== 'failed') {
                 return done(new Error(`Status message should be \'OK\' but i got ${data.status}`));
             }
-            done();
+            return done();
         });
     });
 });

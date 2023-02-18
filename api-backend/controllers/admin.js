@@ -214,7 +214,7 @@ exports.getUser = (req, res, next) => {
             .then(([rows, fields]) => {
                 pool.releaseConnection(conn);
                 if (rows.length == 0) {
-                    res.status(402).json({
+                    res.status(204).json({
                         status: 'failed',
                         message: 'Username doesn\'t exist'
                     })
@@ -222,7 +222,7 @@ exports.getUser = (req, res, next) => {
                 else {
                     res.status(200).json({
                         status: 'OK',
-                        user: rows
+                        user: rows[0]
                     })
                 }
 
