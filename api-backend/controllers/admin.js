@@ -78,10 +78,21 @@ exports.postResetall = (req, res, next) => {
     pool.getConnection((err, conn) => {
         var sqlQuery = `DELETE FROM Q_User`;
         conn.promise().query(sqlQuery)
-            .then(() => {
+            .then((result) => {
+                if (result[0].affectedRows === 0) {
+                    // If zero rows were affected (i.e there are no data to our db) , then
+                    // our db will return "Query OK, 0 rows affected" and will consider it a success. 
+                    // We don't want that, so we consider it failure and Bad request (status code 400) 
+                    pool.releaseConnection(conn);
+                    res.status(400).json({
+                        status: 'failed', 
+                        reason: '0 rows affected'
+                    })
+                    return;
+                }
                 statistics.resetallStatistics();
                 pool.releaseConnection(conn);
-                res.status(200).json({ status: 'OK' })
+                res.status(200).json({ status: 'OK' });
             })
             .catch((err) => {
                 pool.releaseConnection(conn);
@@ -97,6 +108,18 @@ exports.postResetall = (req, res, next) => {
 exports.postResetq = (req, res, next) => {
 
     const QID = req.params.questionnaireID;
+
+    // Define QuestionnaireID QQxxx for questionnaireID
+    const questionnaireIDFormat = /^QQ\d{3}$/;
+
+    // Check for desired format
+    if (!questionnaireIDFormat.test(QID)) {
+        res.status(400).json({
+            status: 'failed',
+            reason: "Bad Request: Invalid questionnaireID format"
+        });
+        return;
+    }
 
     pool.getConnection((err, conn) => {
         var sqlQuery = `DELETE FROM Answer WHERE QuestionnaireID = '${QID}'`;
@@ -141,7 +164,7 @@ exports.postUsermod = (req, res, next) => {
         conn.promise().query(sqlQueryCHKUser)
             .then(([rows, fields]) => {
                 if (rows.length == 0) {
-
+                    // If there is no such user in the db, then insert user
                     var sqlQueryCreate = `INSERT INTO Q_User (Username, psw) VALUES (?, ?)`;
                     conn.promise().query(sqlQueryCreate, [username, password])
                         .then(() => {
@@ -159,12 +182,13 @@ exports.postUsermod = (req, res, next) => {
                         })
                 }
                 else {
+                    // If user exists in the db, then update his password
                     var sqlQueryUpdate = `UPDATE Q_User SET psw = ? WHERE Username = '${username}'`;
                     conn.promise().query(sqlQueryUpdate, [password])
                         .then(() => {
                             pool.releaseConnection(conn);
                             res.status(200).json({
-                                status: 'OK'
+                                status: 'User\'s password updated'
                             })
                         })
                         .catch((err) => {
