@@ -1,12 +1,12 @@
 const chalk = require("chalk");
-//const request = require("request");
+const authreq = require("../authreq")
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
 
 function logout() {
   //  call API request for logout
-  /*request.post(
+  authreq.post(
     "https://localhost:9103/intelliq_api/logout",
     {
       json: true, strictSSL: false,
@@ -17,11 +17,12 @@ function logout() {
         console.log(body);
       },
     }
-  );*/
+  )
+
   try {
     fs.rmSync( path.join(os.tmpdir(), 'my-app','JWTToken') )
   } catch {}
-  console.log(chalk.greenBright("You successfully logged out!"))
+  
   
 }
 module.exports = logout
