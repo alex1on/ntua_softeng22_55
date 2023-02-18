@@ -24,7 +24,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/questionnaire" element={<Questionnaire_render />} />
-          <Route path="/question" element={<Question />} />
+          <Route path="/question" element={<Question_render />} />
         </Routes>
       </BrowserRouter>
     </div >

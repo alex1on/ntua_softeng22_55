@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 
-function Questionnaire_render() {
+function Question_render() {
     const [backendData, setBackendData] = useState({})
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        fetch("https://localhost:9103/intelliq_api/questionnaire/1").then(
+        fetch("https://localhost:9103/intelliq_api/question/1/1").then(
             response => response.json()
         ).then(
             data => {
@@ -24,20 +24,17 @@ function Questionnaire_render() {
     return (
 
         <div>
-            <p>Questionnaire ID: {backendData.questionnaire.questionnaireID}</p>
-            <p>Questionnaire Title: {backendData.questionnaire.questionnaireTitle}</p>
+            <p>Question: {backendData.question.questionnaireID}</p>
+            <p>Question: {backendData.question.questionID}</p>
+            <p>Question: {backendData.question.qtext}</p>
+            <p>Question: {backendData.question.required}</p>
+            <p>Question: {backendData.question.type}</p>
             {
-                backendData.questionnaire.keywords.map((keyword, i) => (
-                    <p key={i}>keyword: {keyword}</p>
-                ))
-            }
-            {
-                backendData.questionnaire.questions.map((question, i) => (
+                backendData.question.options.map((option, i) => (
                     <div key={i}>
-                        <p >Question : {question.QuestionID}  </p>
-                        <p >Question : {question.QText} </p>
-                        <p >Question : {question.Q_Required} </p>
-                        <p >Question : {question.Q_Type} </p>
+                        <p >Option : {option.OptionID}  </p>
+                        <p >Option Text : {option.OptText} </p>
+                        <p >Next Question : {option.NextQID} </p>
                     </div>
                 ))
             }
@@ -46,4 +43,4 @@ function Questionnaire_render() {
     )
 }
 
-export default Questionnaire_render;
+export default Question_render;
