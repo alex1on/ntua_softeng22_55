@@ -25,7 +25,7 @@ function login() {
         }
         else{
           SaveToken(body.token)
-          console.log(token)
+          console.log(body)
         }
       },
     }
