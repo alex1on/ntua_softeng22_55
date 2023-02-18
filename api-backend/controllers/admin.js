@@ -99,10 +99,22 @@ exports.postResetq = (req, res, next) => {
     const QID = req.params.questionnaireID;
 
     pool.getConnection((err, conn) => {
-        var sqlQuery = `DELETE FROM Answer WHERE QuestionnaireID = ${QID}`;
+        var sqlQuery = `DELETE FROM Answer WHERE QuestionnaireID = '${QID}'`;
 
         conn.promise().query(sqlQuery)
-            .then(() => {
+            .then((result) => {
+                if (result[0].affectedRows === 0) {
+                    // If zero rows were affected (i.e there is no questionnaire with questionnaireID equal to the given one
+                    // or there are no answers to this questionnaire), our db will return "Query OK, 0 rows affected" and 
+                    // will consider it a success. 
+                    // We don't want that, so we consider it failure and Bad request (status code 400) 
+                    pool.releaseConnection(conn);
+                    res.status(400).json({
+                        status: 'failed',
+                        reason: '0 rows affected'
+                    })
+                    return;
+                }
                 statistics.resetQuestionnaireAnswers(QID);
                 pool.releaseConnection(conn);
                 res.status(200).json({ status: 'OK' });

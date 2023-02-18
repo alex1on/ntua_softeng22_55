@@ -13,12 +13,13 @@ ALTER TABLE `Q_User` AUTO_INCREMENT = 1;
 ALTER TABLE `Answer` AUTO_INCREMENT = 1;
 ALTER TABLE `Keywords` AUTO_INCREMENT = 1;
 -- Insert Q_user data
-INSERT INTO Q_User (UserID, Username, psw, email)
-VALUES (1, 'Manos', 'test1', 'Manos@example.com'),
-    (2, 'pGiad', 'test2', 'pGiad@example.com'),
-    (3, 'Alex', 'test3', 'Alex@example.com'),
-    (4, 'Velalo', 'test4', 'Velalo@example.com'),
-    (5, 'Skatz', 'test5', 'Skatz@example.com');
+INSERT INTO Q_User (UserID, Username, psw)
+VALUES (1, 'Manos', 'test1'),
+    (2, 'pGiad', 'test2'),
+    (3, 'Alex', 'test3'),
+    (4, 'Velalo', 'test4'),
+    (5, 'Skatz', 'test5');
+
 -- Insert Questionaire data
 INSERT INTO Questionnaire (QuestionnaireID, QuestionnaireTitle, UserID)
 VALUES ('1', "Manos' Questionnaire", 1),

@@ -52,7 +52,7 @@ function questionnaire_upd({ source }) {
     });
 
   } catch (err) {
-    console.error(err)
+    console.log(JSON.stringify(body, null, 4));
   }
 }
 module.exports = questionnaire_upd;
