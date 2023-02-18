@@ -18,11 +18,12 @@ const AnswerQuestionnaire = require("./commands/AnswerQuestionnaire");
 program
   .command("login")
   .description("Enter 'username' and 'password' to login as a user.")
-  .requiredOption("-u, --username <username>", "")
-  .requiredOption("-p, --passw <password>")
   .action(login);
 
-program.command("logout").description("Logout.").action(logout);
+program
+  .command("logout")
+  .description("Logout.")
+  .action(logout);
 
 program
   .command("healthcheck")

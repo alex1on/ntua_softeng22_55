@@ -1,7 +1,5 @@
-const chalk = require("chalk");
 const fs = require("fs");
-const request = require("request");
-const FormData = require("form-data");
+const authreq = require("../authreq")
 const path = require("path");
 
 function questionnaire_upd({ source }) {
@@ -35,7 +33,7 @@ function questionnaire_upd({ source }) {
         file: jsonString
       }
 
-      request.post({
+      authreq.post({
         url: "https://localhost:9103/intelliq_api/admin/questionnaire_upd",
         formData: form,
         strictSSL: false

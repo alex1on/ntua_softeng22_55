@@ -1,10 +1,12 @@
 const express = require('express');
 const adminController = require('../controllers/admin');
+const auth=require('../auth')
 //const { route } = require('./intelliq_api');
 const router = express.Router();
 const multer = require('multer');
-
 const upload = multer();
+
+router.use(auth)
 
 router.get('/', adminController.getAdminHome);
 router.get('/healthcheck', adminController.getHealthCheck);

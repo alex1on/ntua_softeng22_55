@@ -1,13 +1,13 @@
 const chalk = require("chalk");
-const request = require("request");
+const authreq = require("../authreq")
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
 
 function logout() {
   //  call API request for logout
-  request.post(
+  authreq.post(
     "https://localhost:9103/intelliq_api/logout",
-    // using strictSSL: false means that we ignore the self-signed certificate.
-    // We only do this during development phase and should be removed if we obtain
-    // a trusted SSL certificate.
     {
       json: true, strictSSL: false,
       callback: (err, res, body) => {
@@ -17,7 +17,12 @@ function logout() {
           console.log(JSON.stringify(body, null, 4));
       },
     }
-  );
-  console.log(chalk.greenBright("You successfully logged out!"));
+  )
+
+  try {
+    fs.rmSync( path.join(os.tmpdir(), 'my-app','JWTToken') )
+  } catch {}
+  
+  
 }
-module.exports = logout;
+module.exports = logout

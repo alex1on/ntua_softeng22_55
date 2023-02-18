@@ -1,8 +1,9 @@
 //const chalk = require("chalk");
-const request = require("request");
+//const request = require("request");
+const authreq = require("../authreq")
 
 function healthcheck() {
-  request.get("https://localhost:9103/intelliq_api/admin/healthcheck", {
+  authreq.get("https://localhost:9103/intelliq_api/admin/healthcheck", {
     // using strictSSL: false means that we ignore the self-signed certificate.
     // We only do this during development phase and should be removed if we obtain
     // a trusted SSL certificate.
