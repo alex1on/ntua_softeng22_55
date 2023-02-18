@@ -1,7 +1,10 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 
 const app = express();
+
+app.use(cors());
 
 const intelliq_api = require('./routes/intelliq_api');
 const admin = require('./routes/admin');
