@@ -6,8 +6,9 @@ function auth(req,res,next){
     try{
         const auth = req.headers.authorization
         const token=auth.split(' ')[1]
-        jwt.verify(token, process.env.JWT_KEY || '42')
-        //const decoded = jwt.verify(token, process.env.JWT_KEY || '42')
+        //jwt.verify(token, process.env.JWT_KEY || '42')
+        const decoded = jwt.verify(token, process.env.JWT_KEY || '42')
+        req.user=decoded
         next() 
     }
     catch{

@@ -38,7 +38,7 @@ exports.postQuestionnaire_upd = (req, res, next) => {
     // .json format. 
     pool.getConnection((err, conn) => {
         var questionnaire_creat = `INSERT INTO Questionnaire (QuestionnaireID, QuestionnaireTitle, UserID) VALUE (?, ?, ?)`;
-        conn.promise().query(questionnaire_creat, [obj.questionnaireID, obj.questionnaireTitle, 3]);
+        conn.promise().query(questionnaire_creat, [obj.questionnaireID, obj.questionnaireTitle, req.user.UserID]);
         // TODO: Specify which user creates the questionnaire
         var i = 0;
         while (obj.questions[i] != null) {
