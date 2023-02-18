@@ -27,7 +27,11 @@ exports.getQuestionnaire = (req, res, next) => {
     const questionnaireID = req.params.questionnaireID;
     const format = req.query.format;
     
-    if (isNaN(questionnaireID)) {
+    // Define desired format QQxxx for QuestionnaireID
+    const questionnaireIDFormat = /^QQ\d{3}$/;
+    
+    // Check for desired format
+    if (!questionnaireIDFormat.test(questionnaireID)) {
         res.status(400).json({
             status: 'failed',
             message: "Bad Request: Invalid questionnaireID"
@@ -123,7 +127,12 @@ exports.getQuestion = (req, res, next) => {
     const questionID = req.params.questionID;
     const format = req.query.format;
 
-    if(isNaN(questionnaireID) || isNaN(questionID)) {
+    // Define desired format QQxxx for QuestionnaireID and Qxx for QuestionID
+    const questionnaireIDFormat = /^QQ\d{3}$/;
+    const questionIDFormat = /^Q\d{2}$/;
+
+    // Check for desired format
+    if(!questionnaireIDFormat.test(questionnaireID) || !questionIDFormat.test(questionID)) {
         res.status(400).json({
             status: 'failed',
             message: "Bad Request: Invalid questionnaireID or questionID"
@@ -225,7 +234,16 @@ exports.doAnswer = (req, res, next) => {
     const session = req.params.session;
     const OptionID = req.params.optionID;
 
-    if(isNaN(QuestionnaireID) || isNaN(QuestionID) || isNaN(OptionID) || Buffer.byteLength(session, "utf-8")!= 4) {
+    // Define desired formats:
+    // QQxxx for QuestionnaireID,
+    // Qxx for QuestionID,
+    // QxxA{1-9} for OptionID
+    const questionnaireIDFormat = /^QQ\d{3}$/;
+    const questionIDFormat = /^Q\d{2}$/;
+    const optionIDFormat = /^Q\d{2}A\d$/;
+
+    // Check for desired format
+    if((!questionnaireIDFormat.test(QuestionnaireID)) || (!questionIDFormat.test(QuestionID)) || (!optionIDFormat.test(OptionID)) || Buffer.byteLength(session, "utf-8")!= 4) {
         res.status(400).json({
             status: 'failed',
             message: "Bad Request: Invalid parameters"
@@ -267,7 +285,11 @@ exports.getSessionAnswers = (req, res, next) => {
     const session = req.params.session;
     const format = req.query.format;
 
-    if(isNaN(questionnaireID) || Buffer.byteLength(session, "utf-8")!= 4) {
+    // Define desired format QQxxx for QuestionnaireID
+    const questionnaireIDFormat = /^QQ\d{3}$/;
+
+    // Check for desired format and proper length
+    if((!questionnaireIDFormat.test(questionnaireID)) || Buffer.byteLength(session, "utf-8")!= 4) {
         res.status(400).json({
             status: 'failed',
             message: "Bad Request: Invalid parameters"
@@ -337,7 +359,12 @@ exports.getQuestionAnswers = (req, res, next) => {
     const QuestionID = req.params.questionID;
     const format = req.query.format;
 
-    if(isNaN(QuestionnaireID) || isNaN(QuestionID)) {
+    // Define desired format QQxxx for QuestionnaireID
+    const questionnaireIDFormat = /^QQ\d{3}$/;
+    const questionIDFormat = /^Q\d{2}$/;
+
+    // Check for desired format
+    if(!(questionnaireIDFormat.test(QuestionnaireID)) || (!questionIDFormat.test(QuestionID))) {
         res.status(400).json({
             status: 'failed',
             message: "Bad Request: Invalid parameters"
