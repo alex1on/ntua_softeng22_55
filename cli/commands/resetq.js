@@ -1,6 +1,6 @@
 const chalk = require("chalk");
 const prompt = require("prompt-sync")({ sigint: true });
-const request = require("request");
+const authreq = require("../authreq")
 
 function resetq({ questionnaire_id }) {
   var reset = prompt(
@@ -14,7 +14,7 @@ function resetq({ questionnaire_id }) {
     reset = prompt(chalk.yellowBright("Answer 'y' or 'n' "));
   }
   if (reset == "y") {
-    request.post(
+    authreq.post(
       `https://localhost:9103/intelliq_api/admin/resetq/${questionnaire_id}`,
       {
         // using strictSSL: false means that we ignore the self-signed certificate.

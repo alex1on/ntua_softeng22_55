@@ -1,8 +1,7 @@
-const chalk = require("chalk");
-const request = require("request");
+const authreq = require("../authreq")
 
 function resetall() {
-  request.post("https://localhost:9103/intelliq_api/admin/resetall", {
+  authreq.post("https://localhost:9103/intelliq_api/admin/resetall", {
     // using strictSSL: false means that we ignore the self-signed certificate.
     // We only do this during development phase and should be removed if we obtain
     // a trusted SSL certificate.
