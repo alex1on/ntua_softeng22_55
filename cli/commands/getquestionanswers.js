@@ -1,5 +1,6 @@
 const chalk = require("chalk");
 const request = require("request");
+const csv = require("csv-parser");
 
 function getquestionanswers({ questionnaire_id, question_id, format }) {
   if (format !== "json" && format !== "csv") {
@@ -14,45 +15,44 @@ function getquestionanswers({ questionnaire_id, question_id, format }) {
           // using strictSSL: false means that we ignore the self-signed certificate.
           // We only do this during development phase and should be removed if we obtain
           // a trusted SSL certificate.
-          json: true, strictSSL: false,
+          json: true,
+          strictSSL: false,
           callback: (err, res, body) => {
             if (err) {
               return console.error(err);
             }
-            printMsg(questionnaire_id, question_id, format);
-            console.log(body);
+            console.log(JSON.stringify(body, null, 4));
+
           },
         }
       );
     } else {
       request.get(
-        `https://localhost:9103/intelliq_api/getquestionanswers/${questionnaire_id}/${question_id}`,
-        { strictSSL: false,
-          callback:(err, res, body) => {
+        `https://localhost:9103/intelliq_api/getquestionanswers/${questionnaire_id}/${question_id}?format=csv`,
+        {
+
+         
+          strictSSL: false,
+          callback:  (err, res, body) => {
+
             if (err) {
               return console.error(err);
             }
-            // Print csv object
-            printMsg(questionnaire_id, question_id, format);
-            console.log("csv format not ready yet...");
-          }
+            const results = [];
+            const stream = csv({ headers: true })
+              .on("data", (data) => results.push(data))
+              .on("end", () => {
+                for (const row of results) {
+                  console.log(row);
+                }
+              });
+            stream.write(body);
+            stream.end();
+          },
         }
-      )
+      );
     }
   }
 }
-module.exports = getquestionanswers;
 
-function printMsg(questionnaire_id, question_id, format) {
-  console.log(
-    chalk.greenBright(
-      "The answers of question with id =",
-      `'${question_id}'`,
-      "for questionnaire with id =",
-      `'${questionnaire_id}'`,
-      "in",
-      `${format}`,
-      "format are:"
-    )
-  );
-}
+module.exports = getquestionanswers;

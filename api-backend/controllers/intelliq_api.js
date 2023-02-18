@@ -6,18 +6,18 @@ const statistics = require('../statistics/statistics')
 //const error_handler = require('./error_handler')
 
 exports.getHome = (req, res, next) => {
-    res.status(200).json("This is Home Page");
-    //statistics.file_creator(1,"Manos",1);
-    //statistics.AddKeyword(1,"Key1");
-    //statistics.AddQuestion(1, 1, "Question1", "true", "Research");
-    //statistics.AddQuestion(1, 2, "Question3", "true", "Research");
-    //statistics.AddOption(1,1,1,"A",2);
-    //statistics.AddOption(1,1,2,"B",2);
-    //statistics.AddAnswer(1,1,"ab11",1);
-    //statistics.AddAnswer(1,1,"session1",1);
-    //statistics.AddAnswer(1,1,"session2",1);
-    //statistics.AddAnswer(1,1,"session3",2);
-    // const x = statistics.getQuestionnaireFile(1);
+    res.send("This is Home Page");
+    //statistics.file_creator("1","Manos", 1);
+    //statistics.AddKeyword("1","Key1");
+    //statistics.AddQuestion("1", "1", "Question1", "true", "Research");
+    //statistics.AddQuestion("1", "2", "Question3", "true", "Research");
+    //statistics.AddOption("1","1","1","A","2");
+    //statistics.AddOption("1","1","2","B","2");
+    //statistics.AddAnswer("1","1","ab11","1");
+    //statistics.AddAnswer("1","1","session1","1");
+    //statistics.AddAnswer("1","1","session2","1");
+    //statistics.AddAnswer("1","1","session3","2");
+    // const x = statistics.getQuestionnaireFile("1");
     // console.log(x);
     // HOME PAGE
 }
@@ -27,7 +27,11 @@ exports.getQuestionnaire = (req, res, next) => {
     const questionnaireID = req.params.questionnaireID;
     const format = req.query.format;
     
-    if (isNaN(questionnaireID)) {
+    // Define desired format QQxxx for QuestionnaireID
+    const questionnaireIDFormat = /^QQ\d{3}$/;
+    
+    // Check for desired format
+    if (!questionnaireIDFormat.test(questionnaireID)) {
         res.status(400).json({
             status: 'failed',
             message: "Bad Request: Invalid questionnaireID"
@@ -38,12 +42,12 @@ exports.getQuestionnaire = (req, res, next) => {
     pool.getConnection((err, conn) => {
 
         // SQL query to retrieve Questionnaire's Title
-        var sqlFindTitle = `SELECT QuestionnaireTitle FROM Questionnaire WHERE QuestionnaireID = ${questionnaireID}`;
+        var sqlFindTitle = `SELECT QuestionnaireTitle FROM Questionnaire WHERE QuestionnaireID = '${questionnaireID}'`;
         // SQL query to retrieve Questionnaire's Keywords
-        var sqlFindKeywords = `SELECT Keywords.KeywordsText FROM Keywords WHERE QuestionnaireID = ${questionnaireID}`;
+        var sqlFindKeywords = `SELECT Keywords.KeywordsText FROM Keywords WHERE QuestionnaireID = '${questionnaireID}'`;
         // SQL query to retrieve Questionnaire's Questions
         var sqlFindQuestions = `SELECT QuestionID, QText, Q_Required, Q_Type FROM Question 
-                                WHERE QuestionnaireID = ${questionnaireID}
+                                WHERE QuestionnaireID = '${questionnaireID}'
                                 ORDER BY QuestionID`; 
 
         var Title, Keywords, Questions;
@@ -123,7 +127,12 @@ exports.getQuestion = (req, res, next) => {
     const questionID = req.params.questionID;
     const format = req.query.format;
 
-    if(isNaN(questionnaireID) || isNaN(questionID)) {
+    // Define desired format QQxxx for QuestionnaireID and Qxx for QuestionID
+    const questionnaireIDFormat = /^QQ\d{3}$/;
+    const questionIDFormat = /^Q\d{2}$/;
+
+    // Check for desired format
+    if(!questionnaireIDFormat.test(questionnaireID) || !questionIDFormat.test(questionID)) {
         res.status(400).json({
             status: 'failed',
             message: "Bad Request: Invalid questionnaireID or questionID"
@@ -135,12 +144,12 @@ exports.getQuestion = (req, res, next) => {
 
         // SQL query to retrieve Question's Text, Type and Required fields
         var sqlFind_TRT = `SELECT QText, Q_Required, Q_Type FROM Question WHERE 
-                          QuestionnaireID = ${questionnaireID} AND QuestionID = ${questionID};`;
+                          QuestionnaireID = '${questionnaireID}' AND QuestionID = '${questionID}';`;
 
         // SQL query to retrieve Question's Options
         var sqlFindOptions = `SELECT O.OptionID, O.OptText, O.NextQID 
                               FROM Q_Option O INNER JOIN Question Q ON O.QuestionID = Q.QuestionID 
-                              WHERE Q.QuestionnaireID = ${questionnaireID} AND Q.QuestionID = ${questionID}
+                              WHERE Q.QuestionnaireID = '${questionnaireID}' AND Q.QuestionID = '${questionID}'
                               ORDER BY O.OptionID`;
 
         var Text, Required, Type, Options;
@@ -225,7 +234,16 @@ exports.doAnswer = (req, res, next) => {
     const session = req.params.session;
     const OptionID = req.params.optionID;
 
-    if(isNaN(QuestionnaireID) || isNaN(QuestionID) || isNaN(OptionID) || Buffer.byteLength(session, "utf-8")!= 4) {
+    // Define desired formats:
+    // QQxxx for QuestionnaireID,
+    // Qxx for QuestionID,
+    // QxxA{1-9} for OptionID
+    const questionnaireIDFormat = /^QQ\d{3}$/;
+    const questionIDFormat = /^Q\d{2}$/;
+    const optionIDFormat = /^Q\d{2}A\d$/;
+
+    // Check for desired format
+    if((!questionnaireIDFormat.test(QuestionnaireID)) || (!questionIDFormat.test(QuestionID)) || (!optionIDFormat.test(OptionID)) || Buffer.byteLength(session, "utf-8")!= 4) {
         res.status(400).json({
             status: 'failed',
             message: "Bad Request: Invalid parameters"
@@ -237,11 +255,12 @@ exports.doAnswer = (req, res, next) => {
 
         // SQL query to insert the answer into the Answer table
         var sqlInsertAnswer = `INSERT INTO Answer (QuestionnaireID, QuestionID, Session, OptionID) VALUES 
-                              (${QuestionnaireID},${QuestionID},'${session}',${OptionID})`;
+                              ('${QuestionnaireID}','${QuestionID}','${session}','${OptionID}')`;
 
         // Execute the insert query
         conn.promise().query(sqlInsertAnswer)
             .then(() => {
+                statistics.AddAnswer(QuestionnaireID, QuestionID, session, OptionID);
                 pool.releaseConnection(conn);
                 res.status(200).json({
                     status: 'OK',
@@ -266,7 +285,11 @@ exports.getSessionAnswers = (req, res, next) => {
     const session = req.params.session;
     const format = req.query.format;
 
-    if(isNaN(questionnaireID) || Buffer.byteLength(session, "utf-8")!= 4) {
+    // Define desired format QQxxx for QuestionnaireID
+    const questionnaireIDFormat = /^QQ\d{3}$/;
+
+    // Check for desired format and proper length
+    if((!questionnaireIDFormat.test(questionnaireID)) || Buffer.byteLength(session, "utf-8")!= 4) {
         res.status(400).json({
             status: 'failed',
             message: "Bad Request: Invalid parameters"
@@ -279,7 +302,7 @@ exports.getSessionAnswers = (req, res, next) => {
         
         // SQL query to retrieve the session answers
         var sqlFindAnswers = `SELECT QuestionID, OptionID FROM Answer 
-                              WHERE QuestionnaireID = ${questionnaireID} AND SESSION = '${session}' 
+                              WHERE QuestionnaireID = '${questionnaireID}' AND SESSION = '${session}' 
                               ORDER BY QuestionID`;
         var Answers;
 
@@ -336,7 +359,12 @@ exports.getQuestionAnswers = (req, res, next) => {
     const QuestionID = req.params.questionID;
     const format = req.query.format;
 
-    if(isNaN(QuestionnaireID) || isNaN(QuestionID)) {
+    // Define desired format QQxxx for QuestionnaireID
+    const questionnaireIDFormat = /^QQ\d{3}$/;
+    const questionIDFormat = /^Q\d{2}$/;
+
+    // Check for desired format
+    if(!(questionnaireIDFormat.test(QuestionnaireID)) || (!questionIDFormat.test(QuestionID))) {
         res.status(400).json({
             status: 'failed',
             message: "Bad Request: Invalid parameters"
@@ -348,7 +376,7 @@ exports.getQuestionAnswers = (req, res, next) => {
 
         // SQL query to retrieve the answers of the Question that belongs to the Questionnaire
         const sqlFindAnswers = `SELECT Session, OptionID FROM Answer
-                                WHERE QuestionnaireID = ${QuestionnaireID} AND QuestionID = ${QuestionID}
+                                WHERE QuestionnaireID = '${QuestionnaireID}' AND QuestionID = '${QuestionID}'
                                 ORDER BY Answer.last_update`;
 
         var Answers;

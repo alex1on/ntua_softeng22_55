@@ -7,7 +7,7 @@ function file_creator(QuestionnaireID, QuestionnaireTitle, UserID) {
     const filename = `Questionnaire ${QuestionnaireID}.json`;
     const filepath = path.join(__dirname, filename);
     if (fs.existsSync(filepath)) {
-        // file already exists, do nothing
+        // File already exists, do nothing
         console.log(`File ${filename} already exists`);
         return;
     }
