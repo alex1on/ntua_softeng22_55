@@ -60,7 +60,7 @@ exports.getQuestionnaire = (req, res, next) => {
                     pool.releaseConnection(conn);
                     res.status(204).json({
                         status: 'failed',
-                        message: "No data found!"
+                        message: 'No data found!'
                     });
                     return;
                 }
