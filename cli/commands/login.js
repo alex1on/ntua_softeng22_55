@@ -5,11 +5,11 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 
-function login() {
-  const Username = prompt("Write your Username: ")
-  const Password = prompt("Write your Password: ")
+function login({password,username}) {
+  //const Username = prompt("Write your Username: ")
+  //const Password = prompt("Write your Password: ")
   request.post(
-    `https://localhost:9103/intelliq_api/login/${Username}/${Password}`,
+    `https://localhost:9103/intelliq_api/login/${username}/${password}`,
     {      
       // using strictSSL: false means that we ignore the self-signed certificate.
       // We only do this during development phase and should be removed if we obtain

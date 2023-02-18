@@ -18,6 +18,8 @@ const AnswerQuestionnaire = require("./commands/AnswerQuestionnaire");
 program
   .command("login")
   .description("Enter 'username' and 'password' to login as a user.")
+  .requiredOption("-u, --username <username>", "username")
+  .requiredOption("-p, --password <password>", "password"  )
   .action(login);
 
 program
