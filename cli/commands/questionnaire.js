@@ -21,7 +21,8 @@ function questionnaire({ questionnaire_id, format }) {
             if (err) {
               return console.error(err);
             }
-            console.log(body);
+            console.log(JSON.stringify(body, null, 4));
+
           },
         }
       );

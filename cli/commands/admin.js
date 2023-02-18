@@ -31,24 +31,21 @@ function admin({ usermod, users, username, passw }) {
           if (err) {
             return console.error(err);
           }
-          console.log(body);
+          console.log(JSON.stringify(body, null, 4));
         },
       }
     );
-  } 
-  else {
-    request.get(
-      `https://localhost:9103/intelliq_api/admin/users/${users}`,
-      { 
-        json: true , strictSSL: false,
-        callback:(err, res, body) => {
+  } else {
+    request.get(`https://localhost:9103/intelliq_api/admin/users/${users}`, {
+      json: true,
+      strictSSL: false,
+      callback: (err, res, body) => {
         if (err) {
-            return console.error(err);
-          }
-          console.log(body);
+          return console.error(err);
         }
-      }
-    )
+        console.log(JSON.stringify(body, null, 4));
+      },
+    });
   }
 }
 module.exports = admin;

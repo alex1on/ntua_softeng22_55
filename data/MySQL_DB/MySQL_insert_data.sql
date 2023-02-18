@@ -13,154 +13,159 @@ ALTER TABLE `Q_User` AUTO_INCREMENT = 1;
 ALTER TABLE `Answer` AUTO_INCREMENT = 1;
 ALTER TABLE `Keywords` AUTO_INCREMENT = 1;
 -- Insert Q_user data
-INSERT INTO Q_User (UserID, Username, psw, email)
-VALUES (1, 'Manos', 'test1', 'Manos@example.com'),
-    (2, 'pGiad', 'test2', 'pGiad@example.com'),
-    (3, 'Alex', 'test3', 'Alex@example.com'),
-    (4, 'Velalo', 'test4', 'Velalo@example.com'),
-    (5, 'Skatz', 'test5', 'Skatz@example.com');
+INSERT INTO Q_User (UserID, Username, psw)
+VALUES (1, 'Manos', 'test1'),
+    (2, 'pGiad', 'test2'),
+    (3, 'Alex', 'test3'),
+    (4, 'Velalo', 'test4'),
+    (5, 'Skatz', 'test5');
+
 -- Insert Questionaire data
 INSERT INTO Questionnaire (QuestionnaireID, QuestionnaireTitle, UserID)
-VALUES ('1', "Manos' Questionnaire", 1),
-    ('2', "pGiad's Questionnaire", 2),
-    ('3' ,"Alex's Questionnaire", 3),
-    ('4', "Velalo's Questionnaire", 4),
-    ('5', "Skatz's Questionnaire", 5);
+VALUES ('QQ001', "Manos' Questionnaire", 1),
+    ('QQ002', "pGiad's Questionnaire", 2),
+    ('QQ003' ,"Alex's Questionnaire", 3),
+    ('QQ004', "Velalo's Questionnaire", 4),
+    ('QQ005', "Skatz's Questionnaire", 5);
+
 -- Insert Question data
 INSERT INTO Question (QuestionID, QText, Q_Required, Q_Type, QuestionnaireID)
 VALUES (
-        '1',
+        'Q01',
         'Do you prefer chess, basketball or football?',
         'true',
         'Research',
-        '1'
+        'QQ001'
     ),
-    ('2', 'How old are you?', 'true', 'Personal', '1'),
+    ('Q02', 'How old are you?', 'true', 'Personal', 'QQ001'),
     (
-        '3',
+        'Q03',
         'Do you prefer pizza, souvlaki or burger?',
         'false',
         'Research',
-        '1'
+        'QQ001'
     ),
     (
-        '4',
+        'Q04',
         'What kind of music do you enjoy most?',
         'false',
         'Research',
-        '1'
+        'QQ001'
     ),
     (   
-        '5', 
+        'Q05', 
         'Do you play games on PC, PlayStation or XBOX?',
         'false',
         'Research',
-        '2'
+        'QQ002'
     ),
     (
-        '6',
+        'Q06',
         'What kind of games do you enjoy most?',
         'true',
         'Research',
-        '2'
+        'QQ002'
     ),
     (
-        '7',
+        'Q07',
         'How often do you use Spotify?',
         'true',
         'Research',
-        '2'
+        'QQ002'
     ),
-    ('8', 'Will you ever shave?', 'true', 'Research', '2'),
-    ('9', 'Do you drive?', 'false', 'Research', '3'),
+    ('Q08', 'Will you ever shave?', 'true', 'Research', 'QQ002'),
+    ('Q09', 'Do you drive?', 'false', 'Research', 'QQ003'),
     (
-        '10', 
+        'Q10', 
         'In what condition is your car?',
         'true',
         'Research',
-        '3'
+        'QQ003'
     ),
     (
-        '11', 
+        'Q11', 
         'Which is your favourite character in Star Wars?',
         'true',
         'Research',
-        '3'
+        'QQ003'
     ),
-    ('12','Do you like cats?', 'true', 'Research', 4),
+    ('Q12','Do you like cats?', 'true', 'Research', 'QQ004'),
     (
-        '13',
+        'Q13',
         'How often do you go to gym?',
         'true',
         'Research',
-        '4'
+        'QQ004'
     ),
-    ('14', 'Do you eat healthy?', 'true', 'Research', '4'),
-    ('15', 'Do you have a dog?', 'true', 'Research', '5'),
+    ('Q14', 'Do you eat healthy?', 'true', 'Research', 'QQ004'),
+    ('Q15', 'Do you have a dog?', 'true', 'Research', 'QQ005'),
     (
-        '16', 
+        'Q16', 
         'Which is your favourite hat?',
         'true',
         'Research',
-        '5'
+        'QQ005'
     ),
-    ('17', 'What is your nickname?', 'true', 'Research', '5');
+    ('Q17', 'What is your nickname?', 'true', 'Research', 'QQ005');
+
 -- Insert Q_Option data
 INSERT INTO Q_Option (OptionID, OptText, NextQID, QuestionID, QuestionnaireID)
-VALUES ('1', "chess", '2', '1', '1'),
-    ('2', "basketball", '2', '1', '1'),
-    ('3', "football", '2', '1', '1'),
-    ('4', "18", '3', '2', '1'),
-    ('5', "20", '3', '2', '1'),
-    ('6', "22", '3', '2', '1'),
-    ('7', "pizza", '4', '3', '1'),
-    ('8', "souvlaki", '4', '3', '1'),
-    ('9', "burger", '4', '3', '1'),
-    ('10', "pop", NULL, '4', '1'),
-    ('11', "rock", NULL, '4', '1'),
-    ('12', "classic", NULL, '4', '1'),
-    ('13', "PC", '6', '5', '2'),
-    ('14', "XBOX", '6', '5', '2'),
-    ('15', "PlayStation", '6', '5', '2'),
-    ('16', "RPG", '7', '6', '2'),
-    ('17', "RTS", '7', '6', '2'),
-    ('18', "MOBA", '7', '6', '2'),
-    ('19', "Everyday", '8', '7', '2'),
-    ('20', "Sometimes", '8', '7', '2'),
-    ('21', "Never", '8', '7', '2'),
-    ('22', "Yes", NULL, '8', '2'),
-    ('23', "No", NULL, '8', '2'),
-    ('24', "Never!", NULL, '8', '2'),
-    ('25', "Yes", '10', '9', '3'),
-    ('26', "No", '10', '9', '3'),
-    ('27', "I'm trying", '10', '9', '3'),
-    ('28', "Excellent", '11', '10', '3'),
-    ('29', "Terrible", '11', '10', '3'),
-    ('30', "Meehh", '11', '10', '3'),
-    ('31', "Darth Vader", NULL, '11', '3'),
-    ('32', "Han Solo", NULL, '11', '3'),
-    ('33', "Finn", NULL, '11', '3');
+VALUES ('Q01A1', "chess", 'Q02', 'Q01', 'QQ001'),
+    ('Q01A2', "basketball", 'Q02', 'Q01', 'QQ001'),
+    ('Q01A3', "football", 'Q02', 'Q01', 'QQ001'),
+    ('Q02A1', "18", 'Q03', 'Q02', 'QQ001'),
+    ('Q02A2', "20", 'Q03', 'Q02', 'QQ001'),
+    ('Q02A3', "22", 'Q03', 'Q02', 'QQ001'),
+    ('Q03A1', "pizza", 'Q04', 'Q03', 'QQ001'),
+    ('Q03A2', "souvlaki", 'Q04', 'Q03', 'QQ001'),
+    ('Q03A3', "burger", 'Q04', 'Q03', 'QQ001'),
+    ('Q04A1', "pop", NULL, 'Q04', 'QQ001'),
+    ('Q04A2', "rock", NULL, 'Q04', 'QQ001'),
+    ('Q04A3', "classic", NULL, 'Q04', 'QQ001'),
+    ('Q05A1', "PC", 'Q06', 'Q05', 'QQ002'),
+    ('Q05A2', "XBOX", 'Q06', 'Q05', 'QQ002'),
+    ('Q05A3', "PlayStation", 'Q06', 'Q05', 'QQ002'),
+    ('Q06A1', "RPG", 'Q07', 'Q06', 'QQ002'),
+    ('Q06A2', "RTS", 'Q07', 'Q06', 'QQ002'),
+    ('Q06A3', "MOBA", 'Q07', 'Q06', 'QQ002'),
+    ('Q07A1', "Everyday", 'Q08', 'Q07', 'QQ002'),
+    ('Q07A2', "Sometimes", 'Q08', 'Q07', 'QQ002'),
+    ('Q07A3', "Never", 'Q08', 'Q07', 'QQ002'),
+    ('Q08A1', "Yes", NULL, 'Q08', 'QQ002'),
+    ('Q08A2', "No", NULL, 'Q08', 'QQ002'),
+    ('Q08A3', "Never!", NULL, 'Q08', 'QQ002'),
+    ('Q09A1', "Yes", 'Q10', 'Q09', 'QQ003'),
+    ('Q09A2', "No", 'Q10', 'Q09', 'QQ003'),
+    ('Q09A3', "I'm trying", 'Q10', 'Q09', 'QQ003'),
+    ('Q10A1', "Excellent", 'Q11', 'Q10', 'QQ003'),
+    ('Q10A2', "Terrible", 'Q11', 'Q10', 'QQ003'),
+    ('Q10A3', "Meehh", 'Q11', 'Q10', 'QQ003'),
+    ('Q11A1', "Darth Vader", NULL, 'Q11', 'QQ003'),
+    ('Q11A2', "Han Solo", NULL, 'Q11', 'QQ003'),
+    ('Q11A3', "Finn", NULL, 'Q11', 'QQ003');
+
 -- Insert Question data
 INSERT INTO Answer (Session, OptionID, QuestionID, QuestionnaireID)
-VALUES ("ab11", '1', '1', '1'),
-    ("ab11", '6', '2', '1'),
-    ("ab11", '8', '3', '1'),
-    ("ab11", '10', '4', '1'),
-    ("ac12", '13', '5', '2'),
-    ("ac12", '17', '6', '2'),
-    ("ac12", '19', '7', '2'),
-    ("ad13", '24', '8', '2'),
-    ("ad13", '25', '9', '3'),
-    ("ad13", '30', '10', '3'),
-    ("ad13", '31', '11', '3');
+VALUES ("ab11", 'Q01A1', 'Q01', 'QQ001'),
+    ("ab11", 'Q02A3', 'Q02', 'QQ001'),
+    ("ab11", 'Q03A2', 'Q03', 'QQ001'),
+    ("ab11", 'Q04A1', 'Q04', 'QQ001'),
+    ("ac12", 'Q05A1', 'Q05', 'QQ002'),
+    ("ac12", 'Q06A2', 'Q06', 'QQ002'),
+    ("ac12", 'Q07A1', 'Q07', 'QQ002'),
+    ("ad13", 'Q08A3', 'Q08', 'QQ002'),
+    ("ad13", 'Q09A1', 'Q09', 'QQ003'),
+    ("ad13", 'Q10A3', 'Q10', 'QQ003'),
+    ("ad13", 'Q11A1', 'Q11', 'QQ003');
+    
 INSERT INTO Keywords (KeywordsID, KeywordsText, QuestionnaireID)
-VALUES ('1', "key1", '1'),
-    ('2', "key2", '1'),
-    ('3', "key3", '1'),
-    ('4', "key4", '1'),
-    ('5', "key5", '1'),
-    ('6', "key1", '2'),
-    ('7', "key2", '2'),
-    ('8', "key3", '2'),
-    ('9', "key4", '2'),
-    ('10', "key5", '2');
+VALUES ('1', "key1", 'QQ001'),
+    ('2', "key2", 'QQ001'),
+    ('3', "key3", 'QQ001'),
+    ('4', "key4", 'QQ001'),
+    ('5', "key5", 'QQ001'),
+    ('6', "key1", 'QQ002'),
+    ('7', "key2", 'QQ002'),
+    ('8', "key3", 'QQ002'),
+    ('9', "key4", 'QQ002'),
+    ('10', "key5", 'QQ002');

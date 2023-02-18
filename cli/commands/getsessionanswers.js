@@ -8,7 +8,6 @@ function getsessionanswers({ questionnaire_id, session, format }) {
       chalk.red("error: '--format' value has to be either 'json' or 'csv'")
     );
   } else {
-
     if (format == "json") {
       request.get(
         `https://localhost:9103/intelliq_api/getsessionanswers/${questionnaire_id}/${session}`,
@@ -16,20 +15,25 @@ function getsessionanswers({ questionnaire_id, session, format }) {
           // using strictSSL: false means that we ignore the self-signed certificate.
           // We only do this during development phase and should be removed if we obtain
           // a trusted SSL certificate.
-          json: true, strictSSL: false,
+          json: true,
+          strictSSL: false,
           callback: (err, res, body) => {
             if (err) {
               return console.error(err);
             }
-            console.log(body);
+            console.log(JSON.stringify(body, null, 4));
+
           },
         }
       );
     } else {
       request.get(
         `https://localhost:9103/intelliq_api/getsessionanswers/${questionnaire_id}/${session}?format=csv`,
-        { strictSSL: false,
-          callback:(err, res, body) => {
+
+        {
+          strictSSL: false,
+          callback: (err, res, body) => {
+
             if (err) {
               return console.error(err);
             }
@@ -43,6 +47,7 @@ function getsessionanswers({ questionnaire_id, session, format }) {
               });
             stream.write(body);
             stream.end();
+
           }
         }
       );
