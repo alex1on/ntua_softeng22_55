@@ -1,5 +1,5 @@
-async function validateUsrCredentials(username, password) {
-    const url = `${baseURL}/login`;
+export default async function validateUsrCredentials(username, password) {
+    const url = `https://localhost:9103/login`;
   
     try {
       const response = await fetch(url, {
