@@ -22,8 +22,10 @@ function question({ questionnaire_id, question_id, format }) {
             if (err) {
               return console.error(err);
             }
+
             console.log(JSON.stringify(body, null, 4));
           }
+
         }
       );
     } else {

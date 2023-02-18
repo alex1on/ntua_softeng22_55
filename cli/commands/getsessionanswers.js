@@ -22,15 +22,18 @@ function getsessionanswers({ questionnaire_id, session, format }) {
               return console.error(err);
             }
             console.log(JSON.stringify(body, null, 4));
+
           },
         }
       );
     } else {
       request.get(
         `https://localhost:9103/intelliq_api/getsessionanswers/${questionnaire_id}/${session}?format=csv`,
+
         {
           strictSSL: false,
           callback: (err, res, body) => {
+
             if (err) {
               return console.error(err);
             }
@@ -44,7 +47,8 @@ function getsessionanswers({ questionnaire_id, session, format }) {
               });
             stream.write(body);
             stream.end();
-          },
+
+          }
         }
       );
     }

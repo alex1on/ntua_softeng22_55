@@ -22,6 +22,7 @@ function getquestionanswers({ questionnaire_id, question_id, format }) {
               return console.error(err);
             }
             console.log(JSON.stringify(body, null, 4));
+
           },
         }
       );
@@ -29,9 +30,11 @@ function getquestionanswers({ questionnaire_id, question_id, format }) {
       request.get(
         `https://localhost:9103/intelliq_api/getquestionanswers/${questionnaire_id}/${question_id}?format=csv`,
         {
+
          
           strictSSL: false,
           callback:  (err, res, body) => {
+
             if (err) {
               return console.error(err);
             }

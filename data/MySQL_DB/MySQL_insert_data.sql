@@ -19,6 +19,7 @@ VALUES (1, 'Manos', 'test1'),
     (3, 'Alex', 'test3'),
     (4, 'Velalo', 'test4'),
     (5, 'Skatz', 'test5');
+
 -- Insert Questionaire data
 INSERT INTO Questionnaire (QuestionnaireID, QuestionnaireTitle, UserID)
 VALUES ('1', "Manos' Questionnaire", 1),
