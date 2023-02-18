@@ -10,7 +10,7 @@ describe('GetQuestionnaire Format', function() {
             "questionnaireID": Questionnaire ID (string),
             "questionnaireTitle": Questionnaire Title (string),
             "keywords": []  list/array of keywords (each keyword (i.e element) is a string) 
-            "questions": [] list/array of question json objects each of which have they following format
+            "questions": [] list/array of question json objects each of which has the following format
                 {
                     "QuestionID": Question ID (string),
                     "QText": Question Text (string),
@@ -21,7 +21,7 @@ describe('GetQuestionnaire Format', function() {
     }
     */
 
-    it('It should return a JSON object with questionnaire data formatted as above:', function(done) {
+    it('It should return a JSON object with questionnaire data formatted as above!', function(done) {
         request(app)
         .get('/intelliq_api/questionnaire/1')
         .expect('Content-Type', /json/)
@@ -33,14 +33,23 @@ describe('GetQuestionnaire Format', function() {
             if (!data.questionnaire) {
                 return done(new Error('Response does not contain questionnaire data. Status code 204 should have been returned.'));
             }
+
+            // Check for unexpected fields in the questionnaire json object
+            const extraFields = Object.keys(data.questionnaire).filter(key => key !== 'questionnaireID' && key !== 'questionnaireTitle' && key !== 'keywords' && key !== 'questions');
+            if (extraFields.length > 0) {
+                return done(new Error(`Unexpected fields in questionnaire ${data.questionnaire.questionnaireID}: ${extraFields.join(', ')}`));
+            }  
+
             // QuestionnaireID must be a string
             if (typeof data.questionnaire.questionnaireID !== 'string') {
                 return done(new Error('questionnaireID should be a string'));
             }
+
             // QuestionnaireTitle must be a string
             if (typeof data.questionnaire.questionnaireTitle !== 'string') {
                 return done(new Error('questionnaireTitle should be a string'));
             }
+
             // keywords field must be an array/list of string
             if (!Array.isArray(data.questionnaire.keywords)) {
                 return done(new Error('keywords should be an array/list'));
@@ -50,11 +59,13 @@ describe('GetQuestionnaire Format', function() {
                     return done(new Error('keywords\'s elements must be strings'));
                 }
             });
+
             // questions field must be an array/list of json objects formatted as mentioned before 
             if (!Array.isArray(data.questionnaire.questions)) {
                 return done(new Error('questions should be an array/list'));
             }
             data.questionnaire.questions.forEach(question => {
+
                 // QuestionID must be a string
                 if (typeof question.QuestionID !== 'string') {
                     return done(new Error('QuestionID should be a string'));
@@ -70,6 +81,11 @@ describe('GetQuestionnaire Format', function() {
                 // Q_Type must be 'Personal' or 'Research'
                 if (question.Q_Type !== 'Personal' && question.Q_Type !== 'Research') {
                     return done(new Error('Q_Type should be "Personal" or "Research"'));
+                }
+                // Check for unexpected fields in the question json object
+                const extraFields = Object.keys(question).filter(key => key !== 'QuestionID' && key !== 'QText' && key !== 'Q_Required' && key !== 'Q_Type');
+                if (extraFields.length > 0) {
+                    return done(new Error(`Unexpected fields in question ${question.QuestionID}: ${extraFields.join(', ')}`));
                 }
             });
             done();

@@ -9,7 +9,6 @@ router.post('/doanswer/:questionnaireID/:questionID/:session/:optionID', intelli
 router.get('/getsessionanswers/:questionnaireID/:session', intelliq_apiController.getSessionAnswers);
 router.get('/getquestionanswers/:questionnaireID/:questionID', intelliq_apiController.getQuestionAnswers)
 
-/*
 // Special Cases for undefined parameters ---> bad implementation
 
 // getQuestionnaire
@@ -104,5 +103,5 @@ router.get('/getquestionanswers//', (req, res) => {
 });
 
 // doAnswer
-*/
+
 module.exports = router;
