@@ -22,6 +22,10 @@ read -p "Press enter to run healthcheck command..."
 se2255 healthcheck
 
 echo -e "\n"
+read -p "Press enter to add questionnaires in DB..."
+bash ../add_questionnaires.sh
+
+echo -e "\n"
 read -p "Press enter to run questionnaire command..."
 se2255 questionnaire -Q "QQ001" -f json
 

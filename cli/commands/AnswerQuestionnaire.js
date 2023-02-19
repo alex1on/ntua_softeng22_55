@@ -3,7 +3,7 @@ const prompt = require("prompt-sync")({ sigint: true });
 
 
 async function AnswerQuestionnaire({ questionnaire_id, session}){
-  await AnswerQuestion(questionnaire_id,"P01",session)
+  await AnswerQuestion(questionnaire_id,"Q04",session)
 }
 
 function AwaitRequest(url,method){
