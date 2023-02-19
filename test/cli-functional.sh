@@ -7,28 +7,32 @@ read -p "Press enter to run healthcheck command..."
 se2255 healthcheck
 
 echo -e "\n"
+read -p "Press enter to log in..."
+se2255 login -u Manos -p test1
+
+echo -e "\n"
 read -p "Press enter to run questionnaire command..."
-se2255 questionnaire -Q "QQ000" -f json
+se2255 questionnaire -Q "QQ001" -f json
 
 echo -e "\n"
 read -p "Press enter to run question command..."
-se2255 question -Q "QQ000" -q "P01" -f json
+se2255 question -Q "QQ001" -q "Q01" -f json
 
 echo -e "\n"
 read -p "Press enter to run answer command and answer only one question..."
-se2255 doanswer -Q "QQ000" -q "P01" -s "0000" -o "P01A1"
+se2255 doanswer -Q "QQ001" -q "Q01" -s "0000" -o "Q01A1"
 
 echo -e "\n"
 read -p "Press enter to run getquestionanswers command..."
-se2255 getquestionanswers -Q "QQ000" -q "P01" -f json
+se2255 getquestionanswers -Q "QQ001" -q "Q01" -f json
 
 echo -e "\n"
 read -p "Press enter to run getsessionanswers command..."
-se2255 getsessionanswers -Q "QQ000" -s "0000" -f json
+se2255 getsessionanswers -Q "QQ001" -s "0000" -f json
 
 echo -e "\n"
 read -p "Press enter to run resetq command..."
-se2255 resetq -Q "QQ000"
+se2255 resetq -Q "QQ001"
 
 echo -e "\n"
 read -p "Press enter to run resetall command..."
@@ -52,4 +56,4 @@ se2255 questionnaire_upd -s "../questionnaire_sample.json"
 
 echo -e "\n"
 read -p "Press enter to run questionnaire command..."
-se2255 questionnaire -Q "QQ000" -f json
+se2255 questionnaire -Q "QQ001" -f json
