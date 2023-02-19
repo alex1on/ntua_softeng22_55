@@ -1,0 +1,479 @@
+openapi: 3.0.0
+info:
+  title: IntelliQ API
+  description: API for survey application. Additional admin endpoints for administrative capabilities.
+  version: 1.0.0
+  
+servers:
+  - url: https://localhost:9103/intelliq_api/
+tags:
+  - name: User
+    description: Basic user endpoints
+  - name: Admin
+    description: Administrative endpoints
+    
+paths:
+  /questionnaire/{questionnaireid}:
+    get:
+      tags:
+        - User
+      summary: Get a specific questionnaire
+      description: Returns a questionnaire that is uniquely described by its id.
+      parameters:
+        - $ref: '#/components/parameters/QuestionnaireID'
+        - $ref: '#/components/parameters/Format'
+      responses:
+        '200':
+          description: Successfully returned a questionnaire
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Questionnaire'
+        '204':
+          description: No data found
+        '500':
+          $ref : '#/components/responses/500Error'
+    
+  /question/{questionnaireid}/{questionid}:
+    get:
+      tags:
+        - User
+      summary: Get a specific question
+      description: Returns a question of a questionnaire. A question is uniquely described by its question ID and questionnaire ID.
+      parameters:
+        - $ref: '#/components/parameters/QuestionnaireID'
+        - $ref: '#/components/parameters/QuestionID'
+        - $ref: '#/components/parameters/Format'
+      responses:
+        '200':
+          description: Successfully returned a question of a questionnaire
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Question'
+        '500':
+          $ref : '#/components/responses/500Error'
+  
+  /doanswer/{questionnaireid}/{questionid}/{session}/{optionid}:
+    post:
+      tags:
+        - User
+      summary: Answer a question
+      description: Answer a question by choosing the option that is uniquely described by option in the answer session as specified by session of the questionnaire with id that is equal to questionnaireid
+      parameters:
+        - $ref: '#/components/parameters/QuestionnaireID'
+        - $ref: '#/components/parameters/QuestionID'
+        - $ref: '#/components/parameters/Session'
+        - $ref: '#/components/parameters/Format'
+        - name: optionid
+          in: path
+          description: Uniquely describes an option.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully answered the question
+        '500':
+          $ref : '#/components/responses/500Error'
+  
+  /getsessionanswers/{questionnaireid}/{session}:
+    get:
+      tags:
+        - User
+      summary: Get questionnaire answers of a session
+      description: Returns an answer session of a questionnaire specified by the query parameters.
+      parameters:
+        - $ref: '#/components/parameters/QuestionnaireID'        
+        - $ref: '#/components/parameters/Session'
+        - $ref: '#/components/parameters/Format'
+      responses:
+        '200':
+          description: Successfully got session answer.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionAnswer'
+        '500':
+          $ref : '#/components/responses/500Error'
+  /getquestionanswers/{questionnaireid}/{questionid}:
+    get:
+      tags:
+        - User
+      summary: Get all different answer of a specific question
+      description: Returns all different answers of a specific question of a questionnaire.
+      parameters:
+        - $ref: '#/components/parameters/QuestionnaireID'
+        - $ref: '#/components/parameters/QuestionID'
+        - $ref: '#/components/parameters/Format'
+      responses:
+        '200':
+          description: Successfully got all answers of a question.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionAnswers'
+        '500':
+          $ref : '#/components/responses/500Error'
+          
+  /admin/healthcheck:
+    get:
+      tags:
+        - Admin
+      summary: Check database connectivity
+      description: Checks if the database is up and a connection to it can be established.
+      responses:
+        '200':
+          description: Database is up
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status: 
+                    type: string
+                    example: 'OK'
+                  dbconnection:
+                    $ref: '#/components/schemas/dbconnection'
+        '500':
+          description: Databases is down
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status: 
+                    type: string
+                    example: 'failed'
+                  dbconnection:
+                    $ref: '#/components/schemas/dbconnection'
+  
+  /admin/questionnaire_upd:
+    post:
+      tags:
+        - Admin
+      summary: Create questionnaire
+      description: Creates a questionnaire from a json file that is uploaded from an HTTP POST request.
+      requestBody:
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/Questionnaire'              
+      responses:
+        '200':
+          description: Questionnaire successfully created.
+          content:
+            application/json:
+              schema:
+                $ref : '#/components/schemas/statusOK'
+        '500':
+          $ref : '#/components/responses/500Error'
+          
+  /admin/resetall:
+    post:
+      tags:
+        - Admin
+      summary: Delete all data from database
+      description: Deletes all data from database except the superuser.
+      responses:
+        '200':
+          description: Data successfully deleted.
+          content:
+            application/json:
+              schema:
+                $ref : '#/components/schemas/statusOK'
+        '500':
+          $ref : '#/components/responses/500Error'   
+  
+  /admin/resetq/{questionnaireid}:
+    post:
+      tags:
+        - Admin
+      summary: Deletes all answers from a questionnaire
+      description: Deletes all answers from the questionnaire specified by the path parameter.
+      parameters:
+        - $ref: '#/components/parameters/QuestionnaireID'   
+      responses:
+        '200':
+          description: Data successfully deleted.
+          content:
+            application/json:
+              schema:
+                $ref : '#/components/schemas/statusOK'
+        '500':
+          $ref : '#/components/responses/500Error'
+  
+  /admin/usermod/{username}/{password}:
+    post:
+      tags: 
+        - Admin
+      summary: Changes or creates a user
+      description: If user exists the password is changes. Otherwise a new user is created.
+      parameters:
+        - $ref: '#/components/parameters/Username' 
+        - $ref: '#/components/parameters/Password'
+      responses:
+        '200':
+          description: Data successfully deleted.
+          content:
+            application/json:
+              schema:
+                $ref : '#/components/schemas/statusOK'
+        '201':
+          description: New user created.
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    example: 'User created'
+        '500':
+          $ref : '#/components/responses/500Error'
+          
+  /admin/users/{username}:
+    get:
+      tags:
+        - Admin
+      summary: Get user data
+      description: Get user data.
+      parameters:
+        - $ref: '#/components/parameters/Username' 
+      responses:
+        '200':
+          description: User data successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: 'OK'
+                  user:
+                    $ref : '#/components/schemas/User'
+        '402':
+          description: User doesn't exist.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: 'failed'
+                  message:
+                    type: string
+                    example: 'User does not exist'
+        '500':
+          $ref : '#/components/responses/500Error'
+              
+  
+components:
+  parameters:
+    QuestionnaireID:
+      name: questionnaireid
+      in: path
+      description: Uniquely describes a questionnaire.
+      required: true
+      schema:
+        type: string
+    QuestionID:
+      name: questionid
+      in: path
+      description: Uniquely describes a question of a questionnaire.
+      required: true
+      schema:
+        type: string
+    Session:
+      name: session
+      in: path
+      description: Uniquely describes an answer session.
+      required: true
+      schema:
+        type: string
+    Format:
+      name: format
+      in: query
+      description: Specifies the content type of the response.
+      schema:
+        type: string
+        enum: [json, csv]
+    Username:
+      name: username
+      in: path
+      description: Uniquely describes a user.
+      required: true
+      schema:
+        type: string
+    Password:
+      name: password
+      in: path
+      description: The password of a user.
+      required: true
+      schema:
+        type: string
+        
+  schemas:
+    Questionnaire:
+      type: object
+      properties:
+        questionnaireID:
+          type: string
+          example: 'QQ000'
+        questionnaireTitle:
+          type: string
+          example: 'My first Questionnaire'
+        keywords:
+          type: array
+          items:
+            type: string
+            example: 'Software Engineering'
+        questions:
+          type: array
+          items:
+            type: object
+            properties:
+              QuestionID: 
+                type: string
+                example: 'Q01'
+              QText: 
+                type: string
+                example: 'What is your favourite subject?'
+              Q_Required: 
+                type: boolean
+                example: 'true'
+              Q_Type:
+                type: string
+                enum: [Personal, Research]
+                example: 'Research'
+    Question:
+      type: object
+      properties:
+        QuestionID:
+          type: string
+          example: 'Q01'
+        QText:
+          type: string
+          example: 'What is your favourite subject?'
+        Q_Required:
+          type: boolean
+          example: 'true'
+        Q_Type:
+          type: string
+          enum: [Personal, Research]
+          example: 'Research'
+        Options:
+          type: array
+          items:
+            $ref: '#/components/schemas/Option'
+    Option:
+      type: object
+      properties:
+        OptionID:
+          type: string
+          example: 'Q01A1'
+        OptText:
+          type: string
+          example: 'Software Engineering'
+        NextQID:
+          type: string
+          example: 'Q02'
+    SessionAnswer:
+      type: object
+      properties:
+        questionnaireID:
+          type: string
+          example: 'QQ0000'
+        session:
+          type: string
+          example: 'ab11'
+        answers:
+          type: array
+          items:
+            type: object
+            properties:
+              qID: 
+                type: string
+                example: 'Q01'
+              ans:
+                type: string
+                example: 'Q01A1'
+    QuestionAnswers:
+      type: object
+      properties:
+        questionnaireID:
+          type: string
+          example: 'Q0000'
+        QuestionID:
+          type: string
+          example: 'Q01'
+        answers:
+          type: array
+          items:
+            type: object
+            properties:
+              session:
+                type: string
+                example: 'ab11'
+              ans:
+                type: string
+                example: 'Q01A1'
+    User:
+      type: object
+      properties:
+        UserID:
+          type: integer
+          example: '1'
+        Username:
+          type: string
+          example: 'pGiad'
+        psw:
+          type: string
+          example: 'goodpassword123'
+        last_update:
+          type: string
+          example: '2023-02-16T15:49:18.000Z'
+    dbconnection:
+      type: object
+      properties:
+        protocol:
+          type: string
+          example: 'mysql'
+        root:
+          type: string
+          example: 'root'
+        hosts:
+          type: array
+          items:
+            type: object
+            properties:
+              name: 
+                type: string
+                example: 'localhost'
+              type:
+                type: string
+                example: 'domain'
+              port:
+                type: string
+                example: '3306'
+        path: 
+          type: array
+          items:
+            type: string
+            example: 'intelliq'
+    statusOK:
+      type: object
+      properties:
+        status:
+          type: string
+          example: 'OK'
+    
+  responses:
+    500Error:
+      description: Internal server error
+
+          
+            
+        
