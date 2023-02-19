@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "mocha --recursive",
-    "start": "nodemon server.js"
+    "start": "nodemon --ignore /api-backend/statistics/ server.js"
   },
   "repository": {
     "type": "git",
