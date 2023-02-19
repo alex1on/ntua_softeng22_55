@@ -8,6 +8,10 @@ import Questionnaire from "./components/Questionnaire";
 // import ContactUs component
 import About from "./components/About";
   
+import Statistics from "./components/Statistics";
+
+import Login from "./components/Login";
+
 function App() {
   return (
     <>
@@ -23,7 +27,17 @@ function App() {
           with exact path "/about", in component 
           props we passes the imported component*/}
           <Route path="/questionnaire" element={<Questionnaire/>} />
-            
+
+          {/* This route is for about component 
+          with exact path "/about", in component 
+          props we passes the imported component*/}
+          <Route path="/statistics" element={<Statistics/>} />
+
+            {/* This route is for contactus component
+          with exact path "/contactus", in 
+          component props we passes the imported component*/}
+          <Route path="/login" element={<Login/>} />
+             
           {/* This route is for contactus component
           with exact path "/contactus", in 
           component props we passes the imported component*/}
