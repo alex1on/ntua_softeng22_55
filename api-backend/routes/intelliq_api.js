@@ -14,7 +14,7 @@ router.get('/getquestionanswers/:questionnaireID/:questionID', intelliq_apiContr
 // getQuestionnaire
 
 // https://localhost:9103/intelliq_api/questionnaire/  (missing questionnaireID)
-router.get('/questionnaire/', (req, res) => {
+/*router.get('/questionnaire/', (req, res) => {
     res.status(400).json({
         status: 'failed',
         message: 'Bad request: questionnaireID undefined'
@@ -100,7 +100,16 @@ router.get('/getquestionanswers//', (req, res) => {
         status: 'failed',
         message: 'Bad request: questionnaireID and questionID undefined'
     });
-});
+});*/
+
+//Generic Invalid Address Handler
+router.use((req, res) => {
+    res.status(404).json({
+        status:"failed",
+        message:"Bad Request"
+    })
+  }
+)
 
 // doAnswer
 
