@@ -9,6 +9,7 @@ router.post('/doanswer/:questionnaireID/:questionID/:session/:optionID', intelli
 router.get('/getsessionanswers/:questionnaireID/:session', intelliq_apiController.getSessionAnswers);
 router.get('/getquestionanswers/:questionnaireID/:questionID', intelliq_apiController.getQuestionAnswers)
 
+/*
 // Special Cases for undefined parameters ---> bad implementation
 
 // getQuestionnaire
@@ -20,6 +21,7 @@ router.get('/getquestionanswers/:questionnaireID/:questionID', intelliq_apiContr
         message: 'Bad request: questionnaireID undefined'
     });
 });
+
 
 // getQuestion
 
@@ -100,16 +102,8 @@ router.get('/getquestionanswers//', (req, res) => {
         status: 'failed',
         message: 'Bad request: questionnaireID and questionID undefined'
     });
-});*/
-
-//Generic Invalid Address Handler
-router.use((req, res) => {
-    res.status(404).json({
-        status:"failed",
-        message:"Bad Request"
-    })
-  }
-)
+});
+*/
 
 // doAnswer
 
