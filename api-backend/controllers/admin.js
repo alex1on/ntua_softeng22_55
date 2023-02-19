@@ -26,7 +26,7 @@ exports.getHealthCheck = (req, res, next) => {
     })
 }
 
-exports.postQuestionnaire_upd =  (req, res, next) => {
+exports.postQuestionnaire_upd = (req, res, next) => {
     // The questionnaire json data is on the request body as previously 
     // added by the multer muddleware (for more info check the admin.js route)
     // The body has to firstly be stringified and afterwards parsed as json. 
@@ -58,8 +58,8 @@ exports.postQuestionnaire_upd =  (req, res, next) => {
             conn.promise().query(question_creat, [question.qID, question.qtext, question.required, question.type, obj.questionnaireID])
                 .then(() => {
                     statistics.AddQuestion(obj.questionnaireID, question.qID, question.qtext, question.required, question.type);
-                    
-                    if(obj.questions.indexOf(question) === obj.questions.length -1) {
+
+                    if (obj.questions.indexOf(question) === obj.questions.length - 1) {
                         obj.questions.forEach(question => {
                             question.options.forEach(option => {
                                 // After all the questions have been added to the DB 
@@ -87,8 +87,9 @@ exports.postQuestionnaire_upd =  (req, res, next) => {
 
 exports.postResetall = (req, res, next) => {
     pool.getConnection((err, conn) => {
-        var sqlQuery = `DELETE FROM Q_User`;
-        conn.promise().query(sqlQuery)
+        var sqlQuery = `DELETE FROM Q_User WHERE UserID <> 1`;
+        var sqlQuery2 = `Delete FROM Questionnaire`;
+        conn.promise().query(sqlQuery2)
             .then((result) => {
                 if (result[0].affectedRows === 0) {
                     // If zero rows were affected (i.e there are no data to our db) , then
@@ -96,7 +97,7 @@ exports.postResetall = (req, res, next) => {
                     // We don't want that, so we consider it failure and Bad request (status code 400) 
                     pool.releaseConnection(conn);
                     res.status(400).json({
-                        status: 'failed', 
+                        status: 'failed',
                         reason: '0 rows affected'
                     })
                     return;
@@ -105,6 +106,7 @@ exports.postResetall = (req, res, next) => {
                 pool.releaseConnection(conn);
                 res.status(200).json({ status: 'OK' });
             })
+
             .catch((err) => {
                 pool.releaseConnection(conn);
                 res.status(500).json({
