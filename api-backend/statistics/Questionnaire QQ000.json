@@ -1,0 +1,436 @@
+{
+  "Questionnaire QQ000": {
+    "QuestionnaireID": "QQ000",
+    "QuestionnaireTitle": "Holiday Survey",
+    "UserID": 1,
+    "keywords": [
+      "κόστος",
+      "κουζίνα",
+      "κατάλυμα"
+    ],
+    "Questions": [
+      {
+        "QuestionID": "Q04",
+        "QText": "Ποιά είναι η ηλικία σας;",
+        "Required": "true",
+        "Type": "Personal",
+        "Options": [
+          {
+            "OptionID": "Q04A1",
+            "OptionText": "<30",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q05"
+          },
+          {
+            "OptionID": "Q04A2",
+            "OptionText": "30-70",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q05"
+          },
+          {
+            "OptionID": "Q04A3",
+            "OptionText": ">70",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q05"
+          }
+        ],
+        "Answers": 0,
+        "Sessions_Answered": []
+      },
+      {
+        "QuestionID": "Q05",
+        "QText": "Ποιό είναι το φύλο σας;",
+        "Required": "true",
+        "Type": "Personal",
+        "Options": [
+          {
+            "OptionID": "Q05A1",
+            "OptionText": "Άντρας",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q06"
+          },
+          {
+            "OptionID": "Q05A2",
+            "OptionText": "Γυναίκα",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q06"
+          }
+        ],
+        "Answers": 0,
+        "Sessions_Answered": []
+      },
+      {
+        "QuestionID": "Q06",
+        "QText": "Που θα θέλατε να πάτε διακοπές; ",
+        "Required": "false",
+        "Type": "Research",
+        "Options": [
+          {
+            "OptionID": "Q06A1",
+            "OptionText": "Ελλάδα",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q07"
+          },
+          {
+            "OptionID": "Q06A2",
+            "OptionText": "Εξωτερικό",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q07"
+          }
+        ],
+        "Answers": 0,
+        "Sessions_Answered": []
+      },
+      {
+        "QuestionID": "Q07",
+        "QText": "Πόσο περιπετειώδεις διακοπές θέλετε να κάνετε; ",
+        "Required": "true",
+        "Type": "Research",
+        "Options": [
+          {
+            "OptionID": "Q07A1",
+            "OptionText": "Πολύ",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q08"
+          },
+          {
+            "OptionID": "Q07A2",
+            "OptionText": "Μέτρια",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q08"
+          },
+          {
+            "OptionID": "Q07A3",
+            "OptionText": "Λίγο",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q09"
+          }
+        ],
+        "Answers": 0,
+        "Sessions_Answered": []
+      },
+      {
+        "QuestionID": "Q08",
+        "QText": "Τι είδους περιπέτεια θέλετε;",
+        "Required": "false",
+        "Type": "Research",
+        "Options": [
+          {
+            "OptionID": "Q08A1",
+            "OptionText": "Extreme Sports",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q10"
+          },
+          {
+            "OptionID": "Q08A2",
+            "OptionText": "Camping",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q10"
+          },
+          {
+            "OptionID": "Q08A3",
+            "OptionText": "Safari",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q10"
+          }
+        ],
+        "Answers": 0,
+        "Sessions_Answered": []
+      },
+      {
+        "QuestionID": "Q09",
+        "QText": "Πώς θα θέλατε να χαλαρώσετε στις διακοπές σας; ",
+        "Required": "false",
+        "Type": "Research",
+        "Options": [
+          {
+            "OptionID": "Q09A1",
+            "OptionText": "Spa",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q10"
+          },
+          {
+            "OptionID": "Q09A2",
+            "OptionText": "Παραλία",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q10"
+          },
+          {
+            "OptionID": "Q09A3",
+            "OptionText": "Νυχτερινή ζωή",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q10"
+          }
+        ],
+        "Answers": 0,
+        "Sessions_Answered": []
+      },
+      {
+        "QuestionID": "Q10",
+        "QText": "Πόσο σημαντικό είναι το κόστος για εσάς;",
+        "Required": "false",
+        "Type": "Research",
+        "Options": [
+          {
+            "OptionID": "Q10A1",
+            "OptionText": "Πολύ σημαντικό",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q11"
+          },
+          {
+            "OptionID": "Q10A2",
+            "OptionText": "Αρκετά σημαντικό",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q11"
+          },
+          {
+            "OptionID": "Q10A3",
+            "OptionText": "Αδιάφορο",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q11"
+          }
+        ],
+        "Answers": 0,
+        "Sessions_Answered": []
+      },
+      {
+        "QuestionID": "Q11",
+        "QText": "Σε τι είδους κατάλυμα θα θέλατε να μείνετε;",
+        "Required": "false",
+        "Type": "Research",
+        "Options": [
+          {
+            "OptionID": "Q11A1",
+            "OptionText": "Φθηνό Ξενοδοχείο",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q13"
+          },
+          {
+            "OptionID": "Q11A2",
+            "OptionText": "Φθηνό Hostel",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q13"
+          },
+          {
+            "OptionID": "Q11A3",
+            "OptionText": "Camping",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q13"
+          }
+        ],
+        "Answers": 0,
+        "Sessions_Answered": []
+      },
+      {
+        "QuestionID": "Q12",
+        "QText": "Σε τι είδους κατάλυμα θα θέλατε να μείνετε;",
+        "Required": "false",
+        "Type": "Research",
+        "Options": [
+          {
+            "OptionID": "Q12A1",
+            "OptionText": "Πολυτελές Ξενοδοχείο",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q13"
+          },
+          {
+            "OptionID": "Q13A2",
+            "OptionText": "Hostel",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q13"
+          },
+          {
+            "OptionID": "Q13A3",
+            "OptionText": "Ενοικιαζόμενα δωμάτια",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q13"
+          }
+        ],
+        "Answers": 0,
+        "Sessions_Answered": []
+      },
+      {
+        "QuestionID": "Q13",
+        "QText": "τι είδους κουζίνα προτιμάτε;",
+        "Required": "true",
+        "Type": "Research",
+        "Options": [
+          {
+            "OptionID": "Q13A1",
+            "OptionText": "Τοπική",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q14"
+          },
+          {
+            "OptionID": "Q13A2",
+            "OptionText": "Vegan/Vegeterian",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q15"
+          },
+          {
+            "OptionID": "Q13A3",
+            "OptionText": "Δεν με ενδιαφέρει",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q16"
+          }
+        ],
+        "Answers": 0,
+        "Sessions_Answered": []
+      },
+      {
+        "QuestionID": "Q14",
+        "QText": "Τι είδους τοπική κουζίνα;",
+        "Required": "false",
+        "Type": "Research",
+        "Options": [
+          {
+            "OptionID": "Q14A1",
+            "OptionText": "Ασιάτικη",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q16"
+          },
+          {
+            "OptionID": "Q14A2",
+            "OptionText": "Μεσογειακή",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q16"
+          },
+          {
+            "OptionID": "Q14A3",
+            "OptionText": "Ιταλική",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q16"
+          }
+        ],
+        "Answers": 0,
+        "Sessions_Answered": []
+      },
+      {
+        "QuestionID": "Q15",
+        "QText": "Τι είδους συγκεκριμένα;",
+        "Required": "false",
+        "Type": "Research",
+        "Options": [
+          {
+            "OptionID": "Q15A1",
+            "OptionText": "Vegan Comfort",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q16"
+          },
+          {
+            "OptionID": "Q15A2",
+            "OptionText": "Vegeterian fine dining",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": [],
+            "NextQID": "Q16"
+          }
+        ],
+        "Answers": 0,
+        "Sessions_Answered": []
+      },
+      {
+        "QuestionID": "Q16",
+        "QText": "Πόσο συχνά πηγαίνετε διακοπές;",
+        "Required": "true",
+        "Type": "Research",
+        "Options": [
+          {
+            "OptionID": "Q16A1",
+            "OptionText": "<=Μία φορά τον χρόνο",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": []
+          },
+          {
+            "OptionID": "Q16A2",
+            "OptionText": "2 φορές τον χρόνο",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": []
+          },
+          {
+            "OptionID": "Q16A3",
+            "OptionText": "3+ φορές τον χρόνο",
+            "Times_Selected": 0,
+            "Selection_Rate": 0,
+            "Sessions_Selected": []
+          }
+        ],
+        "Answers": 0,
+        "Sessions_Answered": []
+      }
+    ],
+    "Total_Questions": 13,
+    "Required_Questions": 5,
+    "Non_Required_Questions": 8,
+    "Personal_Questions": 2,
+    "Research_Questions": 11,
+    "Answers": 0,
+    "Sessions_Answered": []
+  }
+}

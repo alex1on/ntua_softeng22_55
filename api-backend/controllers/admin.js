@@ -91,6 +91,7 @@ exports.postResetall = (req, res, next) => {
         var sqlQuery2 = `Delete FROM Questionnaire`;
         conn.promise().query(sqlQuery2)
             .then((result) => {
+                statistics.resetallStatistics();
                 if (result[0].affectedRows === 0) {
                     // If zero rows were affected (i.e there are no data to our db) , then
                     // our db will return "Query OK, 0 rows affected" and will consider it a success. 
