@@ -1,168 +1,42 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router , Routes, Route, Navigate } from 'react-router-dom';
 import React, { useEffect } from 'react'
-import Questionnaire_render from './pages/questionnaire';
-import Question_render from './pages/question';
-import WebFont from 'webfontloader';
-import styles from './styles/Home.module.css';
-// import Head from 'next/head'
-// import img from 'next/img'
-//import { Inter } from '@next/font/google'
 
-
+// import Home component
+import Home from "./components/Home";
+// import About component
+import Questionnaire from "./components/Questionnaire";
+// import ContactUs component
+import About from "./components/About";
+  
 function App() {
-
-  useEffect(() => {
-    WebFont.load({
-      google: {
-        families: ['Inter']
-      }
-    });
-  }, []);
-
   return (
-
-
     <>
-      {/* <Head>
-        <title>IntelliQs</title>
-        <meta name="Fill a Survey" content="Help getting more data by answering some questions" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head> */}
-      <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            Get started by filling some surveys, that look and feel great.&nbsp;
-            <code className={styles.code}></code>
-          </p>
-          <div>
-
-            <a
-              href="/login"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src="/images/Login.jpg"
-                alt="Login Picture Logo"
-                className={styles.vercelLogo}
-                width={40}
-                height={40}
-                priority
-              />
-            </a>
-          </div>
-        </div>
-
-        <div className={styles.center}>
-          <img
-            className={styles.logo}
-            src="/images/logo-IntelliQ.png"
-            alt="IntelliQ Logo"
-            width={300}
-            height={75}
-            priority
-          />
-          <div className={styles.thirteen}>
-            <img
-              src="/images/profile.jpg" //Route of this file img in macbook
-              alt="Cool photo for decoration"
-              width={40}
-              height={31}
-              priority
-            />
-          </div>
-        </div>
-
-        <div className={styles.grid}>
-          <a
-            href="/Poll"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className="font-loader">
-              Fill a survey <span>-&gt;</span>
-            </h2>
-            <p className="font-loader">
-              Help collecting more data by answering some questions.
-            </p>
-          </a>
-
-          <a
-            href="About"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className="font-loader">
-              Create your Survey <span>-&gt;</span>
-            </h2>
-            <p className="font-loader">
-              Create your own questionnaire.
-            </p>
-          </a>
-
-          <a
-            href="/statistics"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className="font-loader">
-             Statistics <span>-&gt;</span>
-            </h2>
-            <p className="font-loader">
-              Extract and get statistical results.
-            </p>
-          </a>
-
-          <a
-            href="/Preview"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className="font-loader">
-              Preview some of  the already created surveys <span>-&gt;</span>
-            </h2>
-            <p className="font-loader">
-              Feel free to go through.
-            </p>
-          </a>
-        </div>
-      </main>
+      {/* This is the alias of BrowserRouter i.e. Router */}
+      <Router>
+        <Routes>
+          {/* This route is for home component 
+          with exact path "/", in component props 
+          we passes the imported component*/}
+          <Route exact path="/" element={<Home/>} />
+            
+          {/* This route is for about component 
+          with exact path "/about", in component 
+          props we passes the imported component*/}
+          <Route path="/questionnaire" element={<Questionnaire/>} />
+            
+          {/* This route is for contactus component
+          with exact path "/contactus", in 
+          component props we passes the imported component*/}
+          <Route path="/about" element={<About/>} />
+            
+          {/* If any route mismatches the upper 
+          route endpoints then, redirect triggers 
+          and redirects app to home component with to="/" */}
+          <Route path="/#" element={<Navigate to="/"/>}/>
+        </Routes>
+      </Router>
     </>
-  )
+  );
 }
-
-function Home() {
-  return <h1>Home </h1>;
-}
-
-
-export default App
-
-  // < div >
-  // <BrowserRouter>
-  //   <nav>
-  //     <ul>
-  //       <li>
-  //         <Link to="/">Home</Link>
-  //       </li>
-  //       <li>
-  //         <Link to="/questionnaire">Questionnaire</Link>
-  //       </li>
-  //       <li>
-  //         <Link to="/question">Question</Link>
-  //       </li>
-  //     </ul>
-  //   </nav>
-
-  //   <Routes>
-  //     <Route path="/" element={<Home />} />
-  //     <Route path="/questionnaire" element={<Questionnaire_render />} />
-  //     <Route path="/question" element={<Question_render />} />
-  //   </Routes>
-  // </BrowserRouter>
-  //   </div >
+  
+export default App;
