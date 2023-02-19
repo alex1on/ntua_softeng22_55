@@ -26,7 +26,7 @@ exports.getHealthCheck = (req, res, next) => {
     })
 }
 
-exports.postQuestionnaire_upd = async (req, res, next) => {
+exports.postQuestionnaire_upd =  (req, res, next) => {
     // The questionnaire json data is on the request body as previously 
     // added by the multer muddleware (for more info check the admin.js route)
     // The body has to firstly be stringified and afterwards parsed as json. 
@@ -49,7 +49,6 @@ exports.postQuestionnaire_upd = async (req, res, next) => {
                     statistics.AddKeyword(obj.questionnaireID, keyword);
                 })
         })
-        var counter = 0;
         obj.questions.forEach((question) => {
             // Firstly parse the questions and add them to the DB. 
             // In this way, all questions exist before adding their option, 
@@ -71,6 +70,7 @@ exports.postQuestionnaire_upd = async (req, res, next) => {
                                 }
                                 conn.promise().query(option_creat, [option.optID, option.opttxt, option.nextqID, question.qID, obj.questionnaireID])
                                     .then(() => {
+                                        //console.log(obj.questionnaireID, question.qID, option.optID, option.opttxt, option.nextqID);
                                         statistics.AddOption(obj.questionnaireID, question.qID, option.optID, option.opttxt, option.nextqID);
                                     })
                             })
