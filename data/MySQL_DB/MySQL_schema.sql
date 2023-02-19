@@ -33,13 +33,13 @@ CREATE TABLE Questionnaire (
 -- Table structure for table 'Keywords'
 --    
 CREATE TABLE Keywords (
-    KeywordsID VARCHAR(32) NOT NULL,
+    KeywordsID INT(32) NOT NULL AUTO_INCREMENT,
     KeywordsText VARCHAR(255) NOT NULL,
     QuestionnaireID VARCHAR(32) NOT NULL,
     CONSTRAINT fk_Key_QuestionnaireID FOREIGN KEY (QuestionnaireID) REFERENCES Questionnaire (QuestionnaireID) ON DELETE CASCADE ON UPDATE CASCADE,
     /* If we delete keywords' questionnaire, then we don't want to keep this table. */
     last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (KeywordsID, QuestionnaireID)
+    PRIMARY KEY (KeywordsID)
 );
 -- 
 -- Table structure for table 'Question'

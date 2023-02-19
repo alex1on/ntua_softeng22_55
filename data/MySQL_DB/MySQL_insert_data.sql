@@ -19,7 +19,7 @@ VALUES (1, 'Manos', 'test1'),
     (3, 'Alex', 'test3'),
     (4, 'Velalo', 'test4'),
     (5, 'Skatz', 'test5');
-
+/*
 -- Insert Questionaire data
 INSERT INTO Questionnaire (QuestionnaireID, QuestionnaireTitle, UserID)
 VALUES ('QQ001', "Manos' Questionnaire", 1),
@@ -158,14 +158,15 @@ VALUES ("ab11", 'Q01A1', 'Q01', 'QQ001'),
     ("ad13", 'Q10A3', 'Q10', 'QQ003'),
     ("ad13", 'Q11A1', 'Q11', 'QQ003');
     
-INSERT INTO Keywords (KeywordsID, KeywordsText, QuestionnaireID)
-VALUES ('1', "key1", 'QQ001'),
-    ('2', "key2", 'QQ001'),
-    ('3', "key3", 'QQ001'),
-    ('4', "key4", 'QQ001'),
-    ('5', "key5", 'QQ001'),
-    ('6', "key1", 'QQ002'),
-    ('7', "key2", 'QQ002'),
-    ('8', "key3", 'QQ002'),
-    ('9', "key4", 'QQ002'),
-    ('10', "key5", 'QQ002');
+INSERT INTO Keywords (KeywordsText, QuestionnaireID)
+VALUES ("key1", 'QQ001'),
+    ("key2", 'QQ001'),
+    ("key3", 'QQ001'),
+    ("key4", 'QQ001'),
+    ("key5", 'QQ001'),
+    ("key1", 'QQ002'),
+    ("key2", 'QQ002'),
+    ("key3", 'QQ002'),
+    ("key4", 'QQ002'),
+    ("key5", 'QQ002');
+*/
