@@ -5,31 +5,117 @@ const format_handler = require('../format_handler')
 const statistics = require('../statistics/statistics')
 //const error_handler = require('./error_handler')
 
-exports.getHome = (req, res, next) => {
-    res.send("This is Home Page");
-    //statistics.file_creator("1","Manos", 1);
-    //statistics.AddKeyword("1","Key1");
-    //statistics.AddQuestion("1", "1", "Question1", "true", "Research");
-    //statistics.AddQuestion("1", "2", "Question3", "true", "Research");
-    //statistics.AddOption("1","1","1","A","2");
-    //statistics.AddOption("1","1","2","B","2");
-    //statistics.AddAnswer("1","1","ab11","1");
-    //statistics.AddAnswer("1","1","session1","1");
-    //statistics.AddAnswer("1","1","session2","1");
-    //statistics.AddAnswer("1","1","session3","2");
-    // const x = statistics.getQuestionnaireFile("1");
-    // console.log(x);
-    // HOME PAGE
+exports.getQuestionnaires = (req, res, next) => {
+    const format = req.query.format;
+
+    pool.getConnection((err, conn) => {
+
+        var sqlFindIDs = `SELECT QuestionnaireID FROM Questionnaire ORDER BY QuestionnaireID`;
+        let QuestionnaireIDs = [];
+        conn.promise().query(sqlFindIDs)
+            .then(([rows, fields]) => {
+                QuestionnaireIDs = rows;
+                //console.log(QuestionnaireIDs)
+                const filename = `questionnaires`;
+                const data_for_handler = {
+                    "Questionnaires": []
+                }
+                var i = 0, j = 0;
+                QuestionnaireIDs.forEach(questionnaireID => {
+                    // SQL query to retrieve Questionnaire's Title
+                    var sqlFindTitle = `SELECT QuestionnaireTitle FROM Questionnaire WHERE QuestionnaireID = '${questionnaireID.QuestionnaireID}'`;
+                    // SQL query to retrieve Questionnaire's Keywords
+                    var sqlFindKeywords = `SELECT Keywords.KeywordsText FROM Keywords WHERE QuestionnaireID = '${questionnaireID.QuestionnaireID}'`;
+                    // SQL query to retrieve Questionnaire's Questions
+                    var sqlFindQuestions = `SELECT QuestionID, QText, Q_Required, Q_Type FROM Question 
+                                WHERE QuestionnaireID = '${questionnaireID.QuestionnaireID}'
+                                ORDER BY QuestionID`;
+                    var Title, Keywords, Questions;
+                    // Execute sqlFindTitle query
+                    conn.promise().query(sqlFindTitle)
+                        .then(([rows, fields]) => {
+                            if (rows.length == 0) {
+                                pool.releaseConnection(conn);
+                                res.status(204).json({
+                                    status: 'failed',
+                                    message: "No data found!"
+                                });
+                                return;
+                            }
+                            else {
+                                Title = rows[0].QuestionnaireTitle;
+                                // Execute sqlFindKeywords query
+                                conn.promise().query(sqlFindKeywords)
+                                    .then(([rows, fields]) => {
+                                        Keywords = rows.map(row => row.KeywordsText);
+                                    })
+                                    .catch((err) => {
+                                        pool.releaseConnection(conn);
+                                        res.status(500).json({
+                                            status: 'failed',
+                                            message: err.message
+                                        })
+                                        return;
+                                    })
+
+                                // Execute sqlFindQuestions query
+                                conn.promise().query(sqlFindQuestions)
+                                    .then(([rows, fields]) => {
+                                        Questions = rows.map(row => {
+                                            return {
+                                                ...row,
+                                                QuestionID: row.QuestionID.toString()
+                                            }
+                                        });
+                                        pool.releaseConnection(conn);
+                                        const formattedData = {
+                                            "questionnaireID": questionnaireID.QuestionnaireID,
+                                            "questionnaireTitle": Title,
+                                            "keywords": Keywords,
+                                            "questions": Questions
+                                        }
+                                        //console.log(formattedData);
+                                        //console.log(data_for_handler)
+                                        data_for_handler.Questionnaires[i++] = formattedData;
+                                        j++;
+                                        if (j == QuestionnaireIDs.length) {
+                                            format_handler(format, data_for_handler, filename, res, `questionnaires`);
+                                        }
+
+                                    })
+                                    .catch((err) => {
+                                        pool.releaseConnection(conn);
+                                        res.status(500).json({
+                                            status: 'failed',
+                                            message: err.message
+                                        })
+                                        return;
+                                    })
+                            }
+                        })
+                        .catch((err) => {
+                            pool.releaseConnection(conn);
+                            res.status(500).json({
+                                status: 'failed',
+                                message: err.message
+                            })
+                            return;
+                        })
+
+                })
+            })
+    })
+
 }
 
 // Handle get questionnaire request 
 exports.getQuestionnaire = (req, res, next) => {
     const questionnaireID = req.params.questionnaireID;
     const format = req.query.format;
-    
+
     // Define desired format QQxxx for QuestionnaireID
     const questionnaireIDFormat = /^QQ\d{3}$/;
-    
+
     // Check for desired format
     if (!questionnaireIDFormat.test(questionnaireID)) {
         res.status(400).json({
@@ -41,6 +127,7 @@ exports.getQuestionnaire = (req, res, next) => {
 
     pool.getConnection((err, conn) => {
 
+
         // SQL query to retrieve Questionnaire's Title
         var sqlFindTitle = `SELECT QuestionnaireTitle FROM Questionnaire WHERE QuestionnaireID = '${questionnaireID}'`;
         // SQL query to retrieve Questionnaire's Keywords
@@ -48,7 +135,7 @@ exports.getQuestionnaire = (req, res, next) => {
         // SQL query to retrieve Questionnaire's Questions
         var sqlFindQuestions = `SELECT QuestionID, QText, Q_Required, Q_Type FROM Question 
                                 WHERE QuestionnaireID = '${questionnaireID}'
-                                ORDER BY QuestionID`; 
+                                ORDER BY QuestionID`;
 
         var Title, Keywords, Questions;
 
@@ -66,7 +153,7 @@ exports.getQuestionnaire = (req, res, next) => {
                 }
                 else {
                     Title = rows[0].QuestionnaireTitle;
-                    
+
                     // Execute sqlFindKeywords query
                     conn.promise().query(sqlFindKeywords)
                         .then(([rows, fields]) => {
@@ -93,10 +180,10 @@ exports.getQuestionnaire = (req, res, next) => {
                             pool.releaseConnection(conn);
                             const filename = `questionnaire` + questionnaireID;
                             const formattedData = {
-                                    "questionnaireID": questionnaireID,
-                                    "questionnaireTitle": Title,
-                                    "keywords": Keywords,
-                                    "questions": Questions
+                                "questionnaireID": questionnaireID,
+                                "questionnaireTitle": Title,
+                                "keywords": Keywords,
+                                "questions": Questions
                             }
                             format_handler(format, formattedData, filename, res, `questionnaire`);
                         })
@@ -117,7 +204,7 @@ exports.getQuestionnaire = (req, res, next) => {
                     message: err.message
                 })
                 return;
-            })          
+            })
     });
 };
 
@@ -132,7 +219,7 @@ exports.getQuestion = (req, res, next) => {
     const questionIDFormat = /^Q\d{2}$/;
 
     // Check for desired format
-    if(!questionnaireIDFormat.test(questionnaireID) || !questionIDFormat.test(questionID)) {
+    if (!questionnaireIDFormat.test(questionnaireID) || !questionIDFormat.test(questionID)) {
         res.status(400).json({
             status: 'failed',
             message: "Bad Request: Invalid questionnaireID or questionID"
@@ -177,7 +264,7 @@ exports.getQuestion = (req, res, next) => {
                             Options = rows.map(row => {
 
                                 // If it is the last question (i.e NextQID = null) then we cannot use toString for null value
-                                if(row.NextQID != null) {
+                                if (row.NextQID != null) {
                                     return {
                                         ...row,
                                         OptionID: row.OptionID.toString(),
@@ -192,16 +279,16 @@ exports.getQuestion = (req, res, next) => {
                                     }
                                 }
                             });
-                            
+
 
                             pool.releaseConnection(conn);
                             const filename = `question` + questionID;
                             const formattedData = {
-                                "questionnaireID": questionnaireID, 
+                                "questionnaireID": questionnaireID,
                                 "questionID": questionID,
                                 "qtext": Text,
                                 "required": Required,
-                                "type": Type, 
+                                "type": Type,
                                 "options": Options
                             }
                             format_handler(format, formattedData, filename, res, `question`);
@@ -214,7 +301,7 @@ exports.getQuestion = (req, res, next) => {
                             })
                             return;
                         })
-                    }
+                }
             })
             .catch((err) => {
                 pool.releaseConnection(conn);
@@ -243,7 +330,7 @@ exports.doAnswer = (req, res, next) => {
     const optionIDFormat = /^Q\d{2}A\d$/;
 
     // Check for desired format
-    if((!questionnaireIDFormat.test(QuestionnaireID)) || (!questionIDFormat.test(QuestionID)) || (!optionIDFormat.test(OptionID)) || Buffer.byteLength(session, "utf-8")!= 4) {
+    if ((!questionnaireIDFormat.test(QuestionnaireID)) || (!questionIDFormat.test(QuestionID)) || (!optionIDFormat.test(OptionID)) || Buffer.byteLength(session, "utf-8") != 4) {
         res.status(400).json({
             status: 'failed',
             message: "Bad Request: Invalid parameters"
@@ -289,7 +376,7 @@ exports.getSessionAnswers = (req, res, next) => {
     const questionnaireIDFormat = /^QQ\d{3}$/;
 
     // Check for desired format and proper length
-    if((!questionnaireIDFormat.test(questionnaireID)) || Buffer.byteLength(session, "utf-8")!= 4) {
+    if ((!questionnaireIDFormat.test(questionnaireID)) || Buffer.byteLength(session, "utf-8") != 4) {
         res.status(400).json({
             status: 'failed',
             message: "Bad Request: Invalid parameters"
@@ -299,7 +386,7 @@ exports.getSessionAnswers = (req, res, next) => {
 
     pool.getConnection((err, conn) => {
 
-        
+
         // SQL query to retrieve the session answers
         var sqlFindAnswers = `SELECT QuestionID, OptionID FROM Answer 
                               WHERE QuestionnaireID = '${questionnaireID}' AND SESSION = '${session}' 
@@ -308,48 +395,48 @@ exports.getSessionAnswers = (req, res, next) => {
 
         // Execute sqlFindAnswers query
         conn.promise().query(sqlFindAnswers)
-        .then(([rows, fields]) => {
-            pool.releaseConnection(conn);
+            .then(([rows, fields]) => {
+                pool.releaseConnection(conn);
 
-            if (rows.length == 0) {
-                res.status(204).json({
-                    message: "No data found!"
-                })
-            }
-            else {
-                Answers = rows.map(row => {
-
-                    if(row.OptionID != null) {
-                        return {
-                            qID: row.QuestionID.toString(),
-                            ans: row.OptionID.toString()
-                        }
-                    }
-                    else {
-                        return {
-                            qID: row.QuestionID.toString(),
-                            ans: row.OptionID
-                        }
-                    }
-                })
-
-                const filename = 'sessionAnswers' + session;
-                const formattedData = {
-                    "questionnaireID": questionnaireID,
-                    "session": session,
-                    "answers": Answers
+                if (rows.length == 0) {
+                    res.status(204).json({
+                        message: "No data found!"
+                    })
                 }
-                format_handler(format, formattedData, filename, res, `Session Answers`);
-            }
-        })
-        .catch((err) => {
-            pool.releaseConnection(conn);
-            res.status(500).json({
-                status: 'failed',
-                message: err.message
+                else {
+                    Answers = rows.map(row => {
+
+                        if (row.OptionID != null) {
+                            return {
+                                qID: row.QuestionID.toString(),
+                                ans: row.OptionID.toString()
+                            }
+                        }
+                        else {
+                            return {
+                                qID: row.QuestionID.toString(),
+                                ans: row.OptionID
+                            }
+                        }
+                    })
+
+                    const filename = 'sessionAnswers' + session;
+                    const formattedData = {
+                        "questionnaireID": questionnaireID,
+                        "session": session,
+                        "answers": Answers
+                    }
+                    format_handler(format, formattedData, filename, res, `Session Answers`);
+                }
             })
-            return;
-        })
+            .catch((err) => {
+                pool.releaseConnection(conn);
+                res.status(500).json({
+                    status: 'failed',
+                    message: err.message
+                })
+                return;
+            })
     });
 };
 
@@ -364,7 +451,7 @@ exports.getQuestionAnswers = (req, res, next) => {
     const questionIDFormat = /^Q\d{2}$/;
 
     // Check for desired format
-    if(!(questionnaireIDFormat.test(QuestionnaireID)) || (!questionIDFormat.test(QuestionID))) {
+    if (!(questionnaireIDFormat.test(QuestionnaireID)) || (!questionIDFormat.test(QuestionID))) {
         res.status(400).json({
             status: 'failed',
             message: "Bad Request: Invalid parameters"
@@ -383,46 +470,46 @@ exports.getQuestionAnswers = (req, res, next) => {
 
         // Execute the sqlFindAnswers query
         conn.promise().query(sqlFindAnswers)
-        .then(([rows, fields]) => {
-            pool.releaseConnection(conn);
+            .then(([rows, fields]) => {
+                pool.releaseConnection(conn);
 
-            if (rows.length == 0) {
-                res.status(204).json({
-                    message: "No data found!"
-                })
-            }
-            else {
-                Answers = rows.map(row => {
-
-                    if(row.OptionID != null) {
-                        return {
-                            session: row.Session,
-                            ans: row.OptionID.toString()
-                        }
-                    }
-                    else {
-                        return {
-                            session: row.Session,
-                            ans: row.OptionID
-                        }
-                    }
-                })
-                
-                const filename = `QuestionAnswers` + QuestionID;
-                const formattedData = {
-                    "questionnaireID": QuestionnaireID,
-                    "questionID": QuestionID,
-                    "answers": Answers
+                if (rows.length == 0) {
+                    res.status(204).json({
+                        message: "No data found!"
+                    })
                 }
-                format_handler(format, formattedData, filename, res, `Question Answers`);
-            }
-        })
-        .catch((err) => {
-            pool.releaseConnection(conn);
-            res.status(500).json({
-                status: 'failed',
-                message: err.message
+                else {
+                    Answers = rows.map(row => {
+
+                        if (row.OptionID != null) {
+                            return {
+                                session: row.Session,
+                                ans: row.OptionID.toString()
+                            }
+                        }
+                        else {
+                            return {
+                                session: row.Session,
+                                ans: row.OptionID
+                            }
+                        }
+                    })
+
+                    const filename = `QuestionAnswers` + QuestionID;
+                    const formattedData = {
+                        "questionnaireID": QuestionnaireID,
+                        "questionID": QuestionID,
+                        "answers": Answers
+                    }
+                    format_handler(format, formattedData, filename, res, `Question Answers`);
+                }
             })
-        })
+            .catch((err) => {
+                pool.releaseConnection(conn);
+                res.status(500).json({
+                    status: 'failed',
+                    message: err.message
+                })
+            })
     });
 };

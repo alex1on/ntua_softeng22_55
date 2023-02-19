@@ -1,40 +1,56 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
-import Questionnaire_render from './pages/questionnaire';
-import Question_render from './pages/question';
+import { BrowserRouter as Router , Routes, Route, Navigate } from 'react-router-dom';
+import React, { useEffect } from 'react'
+
+// import Home component
+import Home from "./components/Home";
+// import About component
+import Questionnaire from "./components/Questionnaire";
+// import ContactUs component
+import About from "./components/About";
+  
+import Statistics from "./components/Statistics";
+
+import Login from "./components/Login";
 
 function App() {
-
   return (
-    <div>
-      <BrowserRouter>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/questionnaire">Questionnaire</Link>
-            </li>
-            <li>
-              <Link to="/question">Question</Link>
-            </li>
-          </ul>
-        </nav>
-
+    <>
+      {/* This is the alias of BrowserRouter i.e. Router */}
+      <Router>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/questionnaire" element={<Questionnaire_render />} />
-          <Route path="/question" element={<Question_render />} />
+          {/* This route is for home component 
+          with exact path "/", in component props 
+          we passes the imported component*/}
+          <Route exact path="/" element={<Home/>} />
+            
+          {/* This route is for about component 
+          with exact path "/about", in component 
+          props we passes the imported component*/}
+          <Route path="/questionnaire" element={<Questionnaire/>} />
+
+          {/* This route is for about component 
+          with exact path "/about", in component 
+          props we passes the imported component*/}
+          <Route path="/statistics" element={<Statistics/>} />
+
+            {/* This route is for contactus component
+          with exact path "/contactus", in 
+          component props we passes the imported component*/}
+          <Route path="/login" element={<Login/>} />
+             
+          {/* This route is for contactus component
+          with exact path "/contactus", in 
+          component props we passes the imported component*/}
+          <Route path="/about" element={<About/>} />
+            
+          {/* If any route mismatches the upper 
+          route endpoints then, redirect triggers 
+          and redirects app to home component with to="/" */}
+          <Route path="/#" element={<Navigate to="/"/>}/>
         </Routes>
-      </BrowserRouter>
-    </div >
-
-  )
+      </Router>
+    </>
+  );
 }
-
-function Home() {
-  return <h1>Home </h1>;
-}
-
-
-export default App
+  
+export default App;
